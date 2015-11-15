@@ -1,0 +1,23 @@
+<ul class="pager pull-left">
+  {{#first}}
+  <li class='previous {{#disabled}}disabled{{/disabled}}'>
+    <a href="{{href}}">First</a>
+  </li>
+  {{/first}}
+  {{#prev}}
+  <li class='previous {{#disabled}}disabled{{/disabled}}'>
+    <a href="{{href}}">&larr; Previous</a>
+  </li>
+  {{/prev}}
+  {{#next}}
+  <li class='previous {{#disabled}}disabled{{/disabled}}'>
+    <a href="{{href}}">Next &rarr;</a>
+  </li>
+  {{/next}}
+  {{#last}}
+  <li class='previous {{#disabled}}disabled{{/disabled}}'>
+    <a href="{{href}}">Last</a>
+  </li>
+  {{/last}}
+</ul>
+<p class='pull-right col-md-5'>Showing items from {{from_count}} to {{to_count}} of {{total_count}}</p>

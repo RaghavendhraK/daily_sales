@@ -1,0 +1,17 @@
+<table class="table-striped table" id="activity-logs">
+  <tr>
+    <th>Date<br> Time</th>
+    <th>Action</th>
+    <th></th>
+  </tr>
+  {{#audit_logs}}
+  <tr>
+    <td>
+      {{{logged_dt}}}
+    </td>
+    <td>
+      {{action}}
+    </td>
+  </tr>
+  {{/audit_logs}}
+</table>

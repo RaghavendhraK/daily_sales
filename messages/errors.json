@@ -1,0 +1,8 @@
+{
+  "CONFIG_NOT_SET": {
+    "INTERNAL_STORAGE": "Internal Storage Config is not defined.",
+    "HTTPS": "Https config is not set yet.",
+    "TOKEN": "Token directory is not configured."
+  },
+  "LOGIN_FAIL": "Login failed!!!"
+}

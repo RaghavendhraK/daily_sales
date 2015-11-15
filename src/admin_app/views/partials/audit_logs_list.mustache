@@ -1,0 +1,69 @@
+<table class="table-striped table" id="activity-logs">
+  <tr>
+    <th>Date<br> Time</th>
+    <th>Action</th>
+    <th>Action By</th>
+    <th>Customer</th>
+    <th></th>
+  </tr>
+  {{#audit_logs}}
+  <tr>
+    <td>
+      {{{logged_dt}}}
+    </td>
+    <td>
+      {{action}}
+    </td>
+    <td>
+      {{#user}}{{.}}{{/user}}
+      {{^user}}NA{{/user}}
+    </td>
+    <td class="add-width">
+      <a href="#{{_id}}" class="btn btn-primary btn-sm accord {{^details}}disabled{{/details}}">
+        Detail
+      </a>
+    </td>
+  </tr>
+  <tr>
+    <td class="no-padding" colspan="5">
+      <div id="{{_id}}" class="accordion-contents" style="display:none;">
+        {{^details}}No Details{{/details}}
+        {{#details}}
+        <table class="table table-bordered table-striped col-sm-9 col-md-10">
+          {{#path}}
+          <tr>
+            <th>Request</th>
+            <td colspan="4">{{path}}</td>
+          </tr>
+          {{/path}}
+          {{#params}}
+          <tr>
+            <th>Params</th>
+            <td colspan="4">{{params}}</td>
+          </tr>
+          {{/params}}
+          {{#headers}}
+          <tr>
+            <th>Headers</th>
+            <td colspan="4">{{headers}}</td>
+          </tr>
+          {{/headers}}
+          {{#response}}
+          <tr>
+            <th>Response</th>
+            <td colspan="4">{{response}}</td>
+          </tr>
+          {{/response}}
+          {{#response_time}}
+          <tr>
+            <th>Response Time</th>
+            <td colspan="4">{{response_time}}</td>
+          </tr>
+          {{/response_time}}
+        </table>
+        {{/details}}
+      </div>
+    </td>
+  </tr>
+  {{/audit_logs}}
+</table>

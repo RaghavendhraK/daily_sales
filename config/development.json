@@ -1,0 +1,13 @@
+{
+  "database" : {
+    "internal_storage": {
+      "user": "openly",
+      "password": "indian",
+      "server": "127.0.0.1",
+      "database": "DAILY_SALES",
+      "port": 27017 
+    }
+  },
+  "token_dir": "/home/openly/workspace/daily_sales/datas/token",
+  "salt": "tq2pdxrblkbgp8vt8kbdpmzdh1w8bex"
+}

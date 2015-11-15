@@ -1,0 +1,51 @@
+{{> header}}
+{{> navbar}}
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <ol class="breadcrumb">
+        <li><a href="/dashboard">Dashboard</a></li>
+        <li class="active">Staffs</li>
+      </ol>
+      <h2 class="sub-header">Staffs</h2>
+      {{> flash_message}}
+      <div class="row">
+        <div class="col-md-8">
+          <table class="table table-striped">
+            <thead>
+              <th></th>
+              <th>Name</th>
+              <th>Role</th>
+              <th>DOJ</th>
+              <th>Phone Number</th>
+              <th>Address</th>
+              <th></th>
+            </thead>
+            {{#staffs}}
+            <tr>
+              <td>{{index}}</td>
+              <td>{{staff_name}}</td>
+              <td>{{staff_type}}</td>
+              <td>{{doj}}</td>
+              <td>{{phone}}</td>
+              <td>{{address}}</td>
+              <td>
+                <a href="/attendance/{{_id}}" class="btn btn-default btn-sm" title="Attendance"><span class="glyphicon glyphicon-list"></span></a>
+                <a href="/edit-staff/{{_id}}" class="btn btn-default btn-sm" title="Edit"><span class="glyphicon glyphicon-pencil"></span></a>
+                {{#disabled}}
+                <a href="/activate-staff/{{_id}}?_csrf={{csrf_token}}" class="btn btn-default btn-sm" title="Activate"><span class="glyphicon glyphicon-ok"></span></a>
+                {{/disabled}}
+                {{^disabled}}
+                <a href="/deactivate-staff/{{_id}}?_csrf={{csrf_token}}" class="btn btn-danger btn-sm" title="Deactivate"><span class="glyphicon glyphicon-remove"></span></a>
+                {{/disabled}}
+              </td>
+            </tr>
+            {{/staffs}}
+          </table>
+          <a class="pull-right btn btn-primary slight-margin" href="/add-staff">Add Staff</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{{> footer}}

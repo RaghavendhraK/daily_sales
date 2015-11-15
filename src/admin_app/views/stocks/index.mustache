@@ -1,0 +1,40 @@
+{{> header}}
+{{> navbar}}
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <ol class="breadcrumb">
+        <li><a href="/dashboard">Dashboard</a></li>
+        <li class="active">Staffs</li>
+      </ol>
+      <h2 class="sub-header">Staffs</h2>
+      {{> flash_message}}
+      <div class="row">
+        <div class="col-md-8">
+          <table class="table table-striped">
+            <thead>
+              <th></th>
+              <th>Item name</th>
+              <th>Stock</th>
+              <th>Status</th>
+              <th></th>
+            </thead>
+            {{#stocks}}
+            <tr>
+              <td>{{index}}</td>
+              <td>{{item_name}}</td>
+              <td>{{stock}}</td>
+              <td>{{status}}</td>
+              <td>
+                <a href="/stock/{{item_id}}" class="btn btn-default btn-sm" title="Details"><span class="glyphicon glyphicon-list"></span></a>
+                <a href="/add-stock/{{item_id}}" class="btn btn-default btn-sm" title="Edit"><span class="glyphicon glyphicon-pencil"></span></a>
+              </td>
+            </tr>
+            {{/stocks}}
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{{> footer}}

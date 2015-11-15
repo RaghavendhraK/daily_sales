@@ -1,0 +1,59 @@
+{{> header}}
+{{> navbar}}
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <ol class="breadcrumb">
+        <li><a href="/dashboard">Dashboard</a></li>
+        <li><a href="/items">Items</a></li>
+        <li class="active">{{^item._id}}Add{{/item._id}}{{#item._id}}Edit{{/item._id}} Item</li>
+      </ol>
+      <h2 class="sub-header">{{^item._id}}Add{{/item._id}}{{#item._id}}Edit{{/item._id}} Item</h2>
+      <div class="row">
+        <div class="col-md-6">
+          <form method="post" action="{{^item._id}}/add-item{{/item._id}}{{#item._id}}/edit-item/{{.}}{{/item._id}}" role="form">
+            {{> flash_message}}
+            <input type="hidden" name="_csrf" value="{{csrf_token}}">
+            <fieldset>
+              <div class="form-group">
+                <label for="item_name">Item name</label>
+                <input type="text" value="{{item.item_name}}" class="form-control" id="item_name" name="item_name" placeholder="Item name">
+              </div>
+              <div class="form-group">
+                <label for="item_type">Item type</label>
+                <select id="item_type" name="item_type">
+                  {{#item_types}}
+                  <option value="{{key}}" {{#selected}}SELECTED="SELECTED"{{/selected}}>{{value}}</option>
+                  {{/item_types}}
+                </select>
+              </div>
+              <div class="well">
+                <div class="form-group">
+                  <label for="cost_price">Cost price</label>
+                  <input type="number" value="{{item.cost_price}}" class="form-control" id="cost_price" name="cost_price" placeholder="Cost price" step="any">
+                </div>
+                <div class="form-group">
+                  <label for="selling_price">Selling price</label>
+                  <input type="number" value="{{item.selling_price}}" class="form-control" id="selling_price" name="selling_price" placeholder="Selling price" step="any">
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="unit">Unit</label>
+                <input type="text" value="{{item.unit}}"  class="form-control" id="unit" name="unit" placeholder="Unit">
+              </div>
+              <div class="form-group">
+                <label for="order">Order</label>
+                <input type="number" value="{{item.order}}"  class="form-control" id="order" name="order" placeholder="Order">
+              </div>
+            </fieldset>
+            <div class="pull-right slight-margin">
+              <a href="/items" class="btn btn-default cancel">Cancel</a>
+              <button type="submit" class="btn btn-primary">Save</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{{> footer}}

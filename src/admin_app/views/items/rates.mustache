@@ -1,0 +1,36 @@
+{{> header}}
+{{> navbar}}
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <ol class="breadcrumb">
+        <li><a href="/dashboard">Dashboard</a></li>
+        <li><a href="/items">Items</a></li>
+        <li class="active">Rates</li>
+      </ol>
+      <h2 class="sub-header">Rates::{{item.item_name}}</h2>
+      <div class="row">
+        <div class="col-md-8">
+          <table class="table table-striped">
+            <thead>
+              <th></th>
+              <th>Date</th>
+              <th>Rate</th>
+              <th>Change</th>
+              <th></th>
+            </thead>
+            {{#rates}}
+            <tr>
+              <td>{{index}}</td>
+              <td>{{created_dt}}</td>
+              <td>{{rate}}</td>
+              <td>{{change}}</td>
+            </tr>
+            {{/rates}}
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{{> footer}}

@@ -1,0 +1,59 @@
+{{> header}}
+{{> navbar}}
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <ol class="breadcrumb">
+        <li><a href="/dashboard">Dashboard</a></li>
+        <li><a href="/staffs">Staffs</a></li>
+        <li class="active">{{^staff._id}}Add{{/staff._id}}{{#staff._id}}Edit{{/staff._id}} Staff</li>
+      </ol>
+      <h2 class="sub-header">{{^staff._id}}Add{{/staff._id}}{{#staff._id}}Edit{{/staff._id}} Staff</h2>
+      <div class="row">
+        <div class="col-md-6">
+          <form method="post" action="{{^staff._id}}/add-staff{{/staff._id}}{{#staff._id}}/edit-staff/{{.}}{{/staff._id}}" role="form">
+            {{> flash_message}}
+            <input type="hidden" name="_csrf" value="{{csrf_token}}">
+            <fieldset>
+              <div class="form-group">
+                <label for="staff_name">Staff name</label>
+                <input type="text" value="{{staff.staff_name}}" class="form-control" id="staff_name" name="staff_name" placeholder="Staff name">
+              </div>
+              <div class="form-group">
+                <label for="staff_type">Staff type</label>
+                <select id="staff_type" name="staff_type">
+                  {{#staff_types}}
+                  <option value="{{key}}" {{#selected}}SELECTED="SELECTED"{{/selected}}>{{value}}</option>
+                  {{/staff_types}}
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="referrer">Referrer</label>
+                <input type="text" value="{{staff.referrer}}" class="form-control" id="referrer" name="referrer" placeholder="Referrer">
+              </div>
+              <div class="well">
+                <div class="form-group">
+                  <label for="phone">Phone</label>
+                  <input type="text" value="{{staff.phone}}" class="form-control" id="phone" name="phone" placeholder="Phone">
+                </div>
+                <div class="form-group">
+                  <label for="address">Address</label>
+                  <textarea class="form-control" id="address" name="address" placeholder="Address">{{staff.address}}</textarea>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="doj">Date of Joining(To Do: Add datepicker)</label>
+                <input type="text" value="{{staff.doj}}"  class="form-control" id="doj" name="doj" placeholder="Date of Joining">
+              </div>
+            </fieldset>
+            <div class="pull-right slight-margin">
+              <a href="/staffs" class="btn btn-default cancel">Cancel</a>
+              <button type="submit" class="btn btn-primary">Save</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{{> footer}}

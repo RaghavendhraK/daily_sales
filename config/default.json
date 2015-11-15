@@ -1,0 +1,11 @@
+{
+  "api":{
+    "name":"Daily Sales App",
+    "version": "0.0.1"
+  },
+  "port": {
+    "admin_app": 3000
+  },
+  "admin_app_session_expire_time": 60,
+  "upload_dir_path": "/home/openly/workspace/daily_sales/datas/uploads"
+}

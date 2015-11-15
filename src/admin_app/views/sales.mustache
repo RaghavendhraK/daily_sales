@@ -1,0 +1,110 @@
+{{> header}}
+{{> navbar}}
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <ol class="breadcrumb">
+        <li><a href="/dashboard">Dashboard</a></li>
+        <li class="active">Sales</li>
+      </ol>
+      <h2 class="sub-header">Sales</h2>
+      {{> flash_message}}
+      <div class="row well">
+        <ul>
+          <ol>To Do</ol>
+          <ol>Make opening and closing stock 3 digit.</ol>
+          <ol>Make numbers right format.</ol>
+          <ol>Make Sales, Amount, Total sales highlight.</ol>
+          <ol>Rate and amount money formatted.</ol>
+        </ul>
+      </div>
+      <form action="/save-sales" method="POST">
+        <div class="row well">
+          <div class="col-md-3">
+            <label>Cashier</label>
+            <div class="input-group">
+              <select name="cashier" class="form-control">
+                <option>--Select--</option>
+                {{#cashiers}}
+                <option {{#selected}}SELECTED="SELECTED"{{/selected}} value="{{key}}">{{value}}</option>
+                {{/cashiers}}
+              </select>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <label>Date</label>
+            <div class="datepicker input-group date">
+              <input type="text" class="form-control" value="{{date}}" required="required">
+              <span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <label>Shift</label>
+            <div class="input-group">
+              <select name="shift" class="form-control" required="required">
+                {{#shifts}}
+                <option {{#selected}}SELECTED="SELECTED"{{/selected}} value="{{key}}">{{value}}</option>
+                {{/shifts}}
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="row well">
+          <div class="col-md-12">
+            <table class="table table-striped table-bordered">
+              {{#fuels}}
+              <tr>
+                <th>{{header}}</th>
+                {{#values}}
+                <td><input class="{{col_name}}" name="{{col_name}}[{{_id}}]" data-item_id="{{_id}}" type="number" value="{{.}}" disabled="disabled"/></td>
+                {{/values}}
+                
+                <td><input class="closing_stock" name="closing_stock[{{_id}}]" data-item_id="{{_id}}" type="number" value="{{closing_stock}}" min="0" max="{{opening_stock}}" step="1"/></td>
+                <td><input class="sales" name="sales[{{_id}}]" data-item_id="{{_id}}" type="text" value="{{sales}}" disabled="disabled"/></td>
+                <td><input class="rate" name="rate[{{_id}}]" data-item_id="{{_id}}" type="number" value="{{rate}}" min="0" step="any"/></td>
+                <td><input class="amount" name="amount[{{_id}}]" data-item_id="{{_id}}" type="text" value="{{amount}}" disabled="disabled"/></td>
+              </tr>
+              {{/fuels}}
+            </table>
+          </div>
+        </div>
+        <div class="row well">
+          <div class="col-md-12">
+            <table class="table table-striped table-bordered">
+              <thead>
+                <th>Name</th>
+                <th>Opening</th>
+                <th>Closing</th>
+                <th>Sales</th>
+                <th>Rate</th>
+                <th>Amount</th>
+              </thead>
+              {{#lubes}}
+              <tr>
+                <td>{{item_name}}</td>
+                <td><input class="opening_stock" name="opening_stock[{{_id}}]" data-item_id="{{_id}}" type="number" value="{{opening_stock}}" disabled="disabled"/></td>
+                <td><input class="closing_stock" name="closing_stock[{{_id}}]" data-item_id="{{_id}}" type="number" value="{{closing_stock}}" min="0" max="{{opening_stock}}" step="1"/></td>
+                <td><input class="sales" name="sales[{{_id}}]" data-item_id="{{_id}}" type="text" value="{{sales}}" disabled="disabled"/></td>
+                <td><input class="rate" name="rate[{{_id}}]" data-item_id="{{_id}}" type="number" value="{{rate}}" min="0" step="any"/></td>
+                <td><input class="amount" name="amount[{{_id}}]" data-item_id="{{_id}}" type="text" value="{{amount}}" disabled="disabled"/></td>
+              </tr>
+              {{/lubes}}
+              <tfoot>
+                <tr>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td>Total Sales</td>
+                  <td><input id="total" name="total" type="text" value="{{total}}" disabled="disabled"/></td>
+                </tr>
+              </tfoot>
+            </table>
+            <input type="submit" class="pull-right btn btn-primary slight-margin" value="Save">
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{{> footer}}

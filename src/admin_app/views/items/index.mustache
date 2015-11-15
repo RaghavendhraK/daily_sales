@@ -1,0 +1,52 @@
+{{> header}}
+{{> navbar}}
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <ol class="breadcrumb">
+        <li><a href="/dashboard">Dashboard</a></li>
+        <li class="active">Items</li>
+      </ol>
+      <h2 class="sub-header">Items</h2>
+      {{> flash_message}}
+      <div class="row">
+        <div class="col-md-8">
+          <table class="table table-striped">
+            <thead>
+              <th></th>
+              <th>Name</th>
+              <th>Item Type</th>
+              <th>Selling Price</th>
+              <th>Cost Price</th>
+              <th>Last Updated Date</th>
+              <th></th>
+            </thead>
+            {{#items}}
+            <tr>
+              <td>{{index}}</td>
+              <td>{{item_name}}</td>
+              <td>{{item_type}}</td>
+              <td>{{selling_price}}</td>
+              <td>{{cost_price}}</td>
+              <td>{{updated_dt}}</td>
+              <td>
+                <a href="/stocks/{{_id}}" class="btn btn-default btn-sm" title="Stocks"><span class="glyphicon glyphicon-list"></span></a>
+                <a href="/rates/{{_id}}" class="btn btn-default btn-sm" title="Rates"><span class="glyphicon glyphicon-list"></span></a>
+                <a href="/edit-item/{{_id}}" class="btn btn-default btn-sm" title="Edit"><span class="glyphicon glyphicon-pencil"></span></a>
+                {{#disabled}}
+                <a href="/activate-item/{{_id}}?_csrf={{csrf_token}}" class="btn btn-default btn-sm" title="Activate"><span class="glyphicon glyphicon-ok"></span></a>
+                {{/disabled}}
+                {{^disabled}}
+                <a href="/deactivate-item/{{_id}}?_csrf={{csrf_token}}" class="btn btn-danger btn-sm" title="Deactivate"><span class="glyphicon glyphicon-remove"></span></a>
+                {{/disabled}}
+              </td>
+            </tr>
+            {{/items}}
+          </table>
+          <a class="pull-right btn btn-primary slight-margin" href="/add-item">Add Item</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{{> footer}}
