@@ -34,7 +34,7 @@ class AdminAppServer
     @server.use(flash())
 
     @server.use(bodyParser.urlencoded({
-      extended: false
+      extended: true
     }))
     @server.use(@parseQueryString)
     #to upload files

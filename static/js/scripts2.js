@@ -8,16 +8,49 @@ $(function(){
   });
 
   //===================Sales page=====================//
-  var updateItemSales = function(itemId){
+  var updateFuelSales = function(itemId){
     var itemIdAttr = '[data-item_id="' + itemId + '"]'
-    , openingStk = parseFloat($('input.opening_stock' + itemIdAttr).val())
-    , closingStk = parseFloat($('input.closing_stock' + itemIdAttr).val())
-    , salesEl = $('input.sales' + itemIdAttr)
+    , openingRdg = parseFloat($('input.fuel_opening_reading' + itemIdAttr).val())
+    , closingRdg = parseFloat($('input.fuel_closing_reading' + itemIdAttr).val())
+    , salesEl = $('input.fuel_sales' + itemIdAttr)
     , sales = 0
-    , rate = parseFloat($('input.rate' + itemIdAttr).val())
-    , amountEl = $('input.amount' + itemIdAttr)
+    , rate = parseFloat($('input.fuel_rate' + itemIdAttr).val())
+    , amountEl = $('input.fuel_amount' + itemIdAttr)
     , amount = 0
-    , totalEl = $('input#total')
+    , totalEl = $('input#fuel_total')
+    , total = 0
+    ;
+
+    sales = closingRdg - openingRdg;
+    amount = (sales * rate).toFixed(2);
+
+    salesEl.val(sales);
+    amountEl.val(amount);
+
+    $('input.fuel_amount').each(function(){
+      total += parseFloat($(this).val());
+    });
+    totalEl.val(total.toFixed(2));
+  }
+
+  $('input.fuel_closing_reading, input.fuel_rate').change(function(){
+    var itemId = $(this).attr('data-item_id');
+    updateFuelSales(itemId);
+  })
+
+  $('input.fuel_closing_reading').change();
+
+
+  var updateLubeSales = function(itemId){
+    var itemIdAttr = '[data-item_id="' + itemId + '"]'
+    , openingStk = parseFloat($('input.lube_opening_stock' + itemIdAttr).val())
+    , closingStk = parseFloat($('input.lube_closing_stock' + itemIdAttr).val())
+    , salesEl = $('input.lube_sales' + itemIdAttr)
+    , sales = 0
+    , rate = parseFloat($('input.lube_rate' + itemIdAttr).val())
+    , amountEl = $('input.lube_amount' + itemIdAttr)
+    , amount = 0
+    , totalEl = $('input#lube_total')
     , total = 0
     ;
 
@@ -27,17 +60,17 @@ $(function(){
     salesEl.val(sales);
     amountEl.val(amount);
 
-    $('input.amount').each(function(){
+    $('input.lube_amount').each(function(){
       total += parseFloat($(this).val());
     });
     totalEl.val(total.toFixed(2));
   }
 
-  $('input.closing_stock, input.rate').change(function(){
+  $('input.lube_closing_stock, input.lube_rate').change(function(){
     var itemId = $(this).attr('data-item_id');
-    updateItemSales(itemId);
+    updateLubeSales(itemId);
   })
 
-  $('input.closing_stock').change();
+  $('input.lube_closing_stock').change();
 
 });

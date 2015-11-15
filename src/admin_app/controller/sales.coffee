@@ -1,13 +1,17 @@
 Controller = require '../controller'
+
 async = require 'async'
 _ = require 'underscore'
+moment = require 'moment'
 
-class RatesController extends Controller
+class SalesController extends Controller
+
   constructor: ()->
     super()
 
   setupRoutes: (server)=>
     server.get('/sales', @index)#@checkAuthentication, @index)
+    server.post('/save-sales', @saveSales)#@checkAuthentication, @index)
 
   index: (req, res, next)=>
     renderValues = {
@@ -23,48 +27,18 @@ class RatesController extends Controller
     async.parallel tasks, (e, results)=>
       return next(e) if e?
 
-      _transposeFuels = (fuels)->
-        retFuels = []
-        retFuels.push([{
-          header: 'Item Name'
-          col_name: 'item_name'
-          values: _.pick(fuels, 'item_name')
-        }])
-        retFuels.push([{
-          header: 'Closing Reading'
-          col_name: 'closing_reading'
-          values: _.pick(fuels, 'closing_reading')
-        }])
-        retFuels.push([{
-          header: 'Opening Reading'
-          col_name: 'opening_reading'
-          values: _.pick(fuels, 'opening_reading')
-        }])
-        retFuels.push([{
-          header: 'Sales'
-          col_name: 'sales'
-          values: _.pick(fuels, 'sales')
-        }])
-        retFuels.push([{
-          header: 'Rates'
-          col_name: 'rates'
-          values: _.pick(fuels, 'rates')
-        }])
-        retFuels.push([{
-          header: 'Amount'
-          col_name: 'amount'
-          values: _.pick(fuels, 'amount')
-        }])
-
-        return retFuels
-
       renderValues['lubes'] = results['items']['lubes']
-      renderValues['fuels'] = _transposeFuels results['items']['fuels']
+      renderValues['fuels'] = results['items']['fuels']
       renderValues['cashiers'] = results['cashiers']
       renderValues['shifts'] = results['shifts']
+      renderValues['date'] = moment().format('DD/MM/YYYY')
 
       renderValues = @mergeDefRenderValues(renderValues)
       res.render('sales', renderValues)
+
+  saveSales: (req, res, next)=>
+    console.log req.body
+    res.redirect '/sales'
 
   _getCashiers: (cb)->
     cashiers = [{
@@ -169,4 +143,4 @@ class RatesController extends Controller
     }
     return cb.apply @, [null, items]
 
-module.exports = RatesController
+module.exports = SalesController
