@@ -28,7 +28,7 @@
     "mustache": "^2.2.0",
     "mustache-express4": "0.0.5",
     "nodemailer": "^1.3.1",
-    "qs": "^6.0.0",
+    "qs": "^5.2.0",
     "revalidator": "git://github.com/RaghavendhraK/revalidator#3b1add43bff79e590e2b5e8981297949e90bc4c0",
     "title-case": "^1.1.0",
     "underscore": "^1.7.0",

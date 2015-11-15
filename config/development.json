@@ -8,6 +8,6 @@
       "port": 27017 
     }
   },
-  "token_dir": "/home/openly/workspace/daily_sales/datas/token",
+  "token_dir": "/home/openly/workspace/daily_sales/datas/tokens",
   "salt": "tq2pdxrblkbgp8vt8kbdpmzdh1w8bex"
 }
