@@ -30,15 +30,9 @@
               <td>{{cost_price}}</td>
               <td>{{updated_dt}}</td>
               <td>
-                <a href="/stocks/{{_id}}" class="btn btn-default btn-sm" title="Stocks"><span class="glyphicon glyphicon-list"></span></a>
                 <a href="/rates/{{_id}}" class="btn btn-default btn-sm" title="Rates"><span class="glyphicon glyphicon-list"></span></a>
                 <a href="/edit-item/{{_id}}" class="btn btn-default btn-sm" title="Edit"><span class="glyphicon glyphicon-pencil"></span></a>
-                {{#disabled}}
-                <a href="/activate-item/{{_id}}?_csrf={{csrf_token}}" class="btn btn-default btn-sm" title="Activate"><span class="glyphicon glyphicon-ok"></span></a>
-                {{/disabled}}
-                {{^disabled}}
-                <a href="/deactivate-item/{{_id}}?_csrf={{csrf_token}}" class="btn btn-danger btn-sm" title="Deactivate"><span class="glyphicon glyphicon-remove"></span></a>
-                {{/disabled}}
+                <a href="/delete-item/{{_id}}?_csrf={{csrf_token}}" class="btn btn-danger btn-sm btn-delete" title="Delete"><span class="glyphicon glyphicon-trash"></span></a>
               </td>
             </tr>
             {{/items}}

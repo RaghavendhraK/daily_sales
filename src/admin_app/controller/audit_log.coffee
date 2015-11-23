@@ -119,7 +119,7 @@ class AuditLogController extends Controller
           dateRange = from + ' - ' + to
         renderValues['date_range'] = dateRange
 
-        renderValues = @mergeDefRenderValues(renderValues)
+        renderValues = @mergeDefRenderValues(req, renderValues)
         res.render 'audit_log', renderValues
 
 module.exports = AuditLogController

@@ -1,13 +1,13 @@
 class Constant
 
   @ITEM_TYPES = [
-    {
-      key: 'fuel',
-      value: 'FUEL'
-    },{
+   {
       key: 'lubes',
       value: 'LUBES'
-    },{
+    }, {
+      key: 'fuel',
+      value: 'FUEL'
+    }, {
       key: 'others',
       value: 'OTHERS'
     }
@@ -15,15 +15,15 @@ class Constant
 
   @STAFF_TYPES = [
     {
-      key: 'cashier',
-      value: 'Cashier'
-    },{
       key: 'pumpboy',
       value: 'Pump Boy'
-    },{
+    }, {
+      key: 'cashier',
+      value: 'Cashier'
+    }, {
       key: 'security',
       value: 'Security'
-    },{
+    }, {
       key: 'others',
       value: 'OTHERS'
     }

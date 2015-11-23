@@ -54,7 +54,7 @@ class StocksController extends Controller
       renderValues['stocks'] = @_formatStocks stocks, items
 
       # renderValues['csrf_token'] = req.csrfToken()
-      renderValues = @mergeDefRenderValues(renderValues)
+      renderValues = @mergeDefRenderValues(req, renderValues)
 
       res.render('stocks/index', renderValues)
 
@@ -97,7 +97,7 @@ class StocksController extends Controller
   _renderAddEdit: (req, res, renderValues)->
     renderValues['stock_types'] = @setSelectedMustacheDropdownValues Constant.STOCK_TYPES, 'key', renderValues['stock']?['stock_type']
     # renderValues['csrf_token'] = req.csrfToken()
-    renderValues = @mergeDefRenderValues(renderValues)
+    renderValues = @mergeDefRenderValues(req, renderValues)
     res.render('stocks/add-edit', renderValues)
 
   addStock: (req, res, next)=>

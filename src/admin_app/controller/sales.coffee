@@ -33,7 +33,7 @@ class SalesController extends Controller
       renderValues['shifts'] = results['shifts']
       renderValues['date'] = moment().format('DD/MM/YYYY')
 
-      renderValues = @mergeDefRenderValues(renderValues)
+      renderValues = @mergeDefRenderValues(req, renderValues)
       res.render('sales', renderValues)
 
   saveSales: (req, res, next)=>

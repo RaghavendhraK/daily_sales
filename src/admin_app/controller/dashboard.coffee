@@ -41,7 +41,7 @@ class DashboardController extends Controller
       renderValues['audit_logs'] = results['logs']
 
       # renderValues['csrf_token'] = req.csrfToken()
-      renderValues = @mergeDefRenderValues(renderValues)
+      renderValues = @mergeDefRenderValues(req, renderValues)
 
       res.render('dashboard', renderValues)
 

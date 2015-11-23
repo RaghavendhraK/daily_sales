@@ -23,7 +23,7 @@ class LoginController extends Controller
     }
 
     # renderValues['csrf_token'] = req.csrfToken()
-    renderValues = @mergeDefRenderValues(renderValues)
+    renderValues = @mergeDefRenderValues(req, renderValues)
     res.render('login', renderValues)
 
   doLogin: (req, res, next)=>
@@ -52,7 +52,7 @@ class LoginController extends Controller
     renderValues['flash_message'] = @getFlashMessages(req)
 
     # renderValues['csrf_token'] = req.csrfToken()
-    renderValues = @mergeDefRenderValues(renderValues)
+    renderValues = @mergeDefRenderValues(req, renderValues)
 
     return res.render('login', renderValues)
 

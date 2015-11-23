@@ -43,7 +43,7 @@ class RatesController extends Controller
         return if isCbCalled
         return next(e)
 
-      renderValues = @mergeDefRenderValues(renderValues)
+      renderValues = @mergeDefRenderValues(req, renderValues)
       res.render('items/rates', renderValues)
 
   _formatRates: (rates)->
@@ -79,7 +79,7 @@ class RatesController extends Controller
   _renderAddEdit: (req, res, renderValues)->
     renderValues['item_types'] = @setSelectedMustacheDropdownValues Constant.ITEM_TYPES, 'key', renderValues['item']?['item_type']
     # renderValues['csrf_token'] = req.csrfToken()
-    renderValues = @mergeDefRenderValues(renderValues)
+    renderValues = @mergeDefRenderValues(req, renderValues)
     res.render('items/add-edit', renderValues)
 
   addItem: (req, res, next)=>

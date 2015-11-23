@@ -28,7 +28,7 @@ class ItemsController extends Controller
       renderValues['items'] = @_formatItems items
 
       # renderValues['csrf_token'] = req.csrfToken()
-      renderValues = @mergeDefRenderValues(renderValues)
+      renderValues = @mergeDefRenderValues(req, renderValues)
 
       res.render('items/index', renderValues)
 
@@ -71,7 +71,7 @@ class ItemsController extends Controller
   _renderAddEdit: (req, res, renderValues)->
     renderValues['item_types'] = @setSelectedMustacheDropdownValues Constant.ITEM_TYPES, 'key', renderValues['item']?['item_type']
     # renderValues['csrf_token'] = req.csrfToken()
-    renderValues = @mergeDefRenderValues(renderValues)
+    renderValues = @mergeDefRenderValues(req, renderValues)
     res.render('items/add-edit', renderValues)
 
   addItem: (req, res, next)=>

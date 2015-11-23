@@ -17,9 +17,10 @@ class AdminAppController
       }
     return @defaultRenderValues
 
-  mergeDefRenderValues: (values)->
+  mergeDefRenderValues: (req, values)->
     renderValues = {}
     _.extend(renderValues, @getMustacheDefaultValues(), values)
+    renderValues['flash_message'] = @getFlashMessages req
     return renderValues
 
   _onLoginPage: (req, res, next)->
@@ -58,12 +59,16 @@ class AdminAppController
   getFlashMessages: (req)->
     retValue = {}
 
-    flashErrs = req.flash 'error'
-    if flashErrs?.length > 0
+    flashMsgs = req.flash 'flash_messages'
+    console.log flashMsgs
+
+    for msg in flashMsgs
+      type = msg['type']
+      retValue[type] = [] unless retValue[type]?
+
       messages = []
-      
-      if flashErrs[0]?.errors?
-        for error in flashErrs[0]?.errors
+      if type is 'error'
+        for error in msg['messages']
           formattedMsg = ''
           if error['property']?
             fieldName = error['property'].split('.').pop()
@@ -71,12 +76,9 @@ class AdminAppController
           formattedMsg += error['message']
           messages.push formattedMsg
       else
-        messages.push flashErrs[0].message
-      retValue['error'] = {message: messages}
+        messages.push msg.message
 
-    success = req.flash 'success'
-    if success?.length > 0
-      retValue['success'] = {message: success[0]}
+      retValue[type].push {message: messages}
 
     return retValue
   

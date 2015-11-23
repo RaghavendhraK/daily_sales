@@ -1,0 +1,19 @@
+db.createUser({user: "openly", pwd: "indian", roles: [{role: "readWrite", db: "SYNOPS_InternalStorage" }]});
+
+Under Settings
+CRUD Staff page
+CRUD Items page
+
+Under normal
+CRUD Stock page
+CRUD Attendance page
+
+Sales
+
+Under Reports
+By shift, day, week and month
+Export to Excel
+
+Dashboard
+Low stock alert, missing Data entry alert
+Graph with daily sales by MS, HSD, Lubes oil, lubes misc

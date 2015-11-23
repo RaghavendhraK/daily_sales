@@ -1,6 +1,11 @@
 $(function(){
   'use strict';
 
+  $('.btn-delete').click(function(){
+    return confirm('Are you sure you want to delete?');
+  })
+
+
   $('.datepicker').datepicker({
     format: 'dd/mm/yyyy'
     , endDate: "today"
