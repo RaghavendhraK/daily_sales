@@ -1,8 +1,8 @@
 {
   "ITEM_ADDED_SUCCESSFULLY": "New item '%s' added successfully.",
   "ITEM_EDITED_SUCCESSFULLY": "Item '%s' updated successfully.",
-  "ITEM_DELETED_SUCCESSFULLY": "An item deleted successfully.",
+  "ITEM_DELETED_SUCCESSFULLY": "Item '%s' deleted successfully.",
   "STAFF_ADDED_SUCCESSFULLY": "New staff '%s' added successfully.",
   "STAFF_EDITED_SUCCESSFULLY": "Staff '%s' updated successfully.",
-  "STAFF_DELETED_SUCCESSFULLY": "A staff deleted successfully."
+  "STAFF_DELETED_SUCCESSFULLY": "Staff '%s' deleted successfully."
 }

@@ -15,7 +15,6 @@ class Items extends InternalStorageModel
         'item_name': 'String'
         'item_type': 'String'
         'order': 'Number'
-        'cost_price': 'Number'
         'selling_price': 'Number'
         'unit': 'String'
         'disabled': 'Boolean'
@@ -28,8 +27,7 @@ class Items extends InternalStorageModel
     return @schema
 
   checkForDuplicate: (itemName, itemId, cb)->
-    if _.isEmpty itemName
-      return cb.apply @, [null, true]
+    return cb.apply @, [null, false] if _.isEmpty itemName
 
     filters = {item_name: itemName}
 
@@ -43,31 +41,26 @@ class Items extends InternalStorageModel
 
   validate: (params, itemId, cb)->
     errMsgs = []
-    if _.isEmpty params['item_name']
-      errMsgs.push CONFIGURED_MESSAGES.REQUIRED_ITEM_NAME
-
-    if _.isEmpty params['cost_price']
-      errMsgs.push CONFIGURED_MESSAGES.REQUIRED_RATE
-    else
-      params['cost_price'] = parseFloat(params['cost_price']) 
-      if isNaN params['cost_price']
-        errMsgs.push CONFIGURED_MESSAGES.INVALID_RATE
-
-    if _.isEmpty params['selling_price']
-      errMsgs.push CONFIGURED_MESSAGES.REQUIRED_RATE
-    else
-      params['selling_price'] = parseFloat(params['selling_price']) 
-      if isNaN params['selling_price']
-        errMsgs.push CONFIGURED_MESSAGES.INVALID_RATE
-
-    if _.isEmpty params['unit']
-      errMsgs.push CONFIGURED_MESSAGES.REQUIRED_UNIT
-
     @checkForDuplicate params['item_name'], itemId, (e, exists)=>
       return cb.apply @, [e] if e?
 
       if exists
         errMsgs.push CONFIGURED_MESSAGES.DUPLICATE_ITEM
+      else if _.isEmpty params['item_name']
+        errMsgs.push CONFIGURED_MESSAGES.REQUIRED_ITEM_NAME
+
+      if _.isEmpty params['selling_price']
+        errMsgs.push CONFIGURED_MESSAGES.REQUIRED_RATE
+      else
+        params['selling_price'] = parseFloat(params['selling_price'])
+        if isNaN params['selling_price']
+          errMsgs.push CONFIGURED_MESSAGES.INVALID_RATE
+
+      if _.isEmpty params['unit']
+        errMsgs.push CONFIGURED_MESSAGES.REQUIRED_UNIT
+      else
+        unless isNaN parseFloat(params['unit'])
+          errMsgs.push CONFIGURED_MESSAGES.INVALID_UNIT
 
       if errMsgs.length > 0
         e = new Error CONFIGURED_MESSAGES.ITEM_VALIDATION_FAILED
@@ -84,7 +77,7 @@ class Items extends InternalStorageModel
       super params, (e, savedItem)=>
         return cb.apply @, [e] if e?
 
-        itemId = savedItem['_id'].toString()
+        itemId = savedItem['ops'][0]['_id'].toString()
         @createRates itemId, params, (e)=>
           return cb.apply @, [e, savedItem]
 

@@ -1,0 +1,9 @@
+{
+  "REQUIRED_ITEM_NAME": "Item name is required.",
+  "REQUIRED_RATE": "Selling price is required.",
+  "INVALID_RATE": "Selling price has to be numbers like 12.34, 100, ...",
+  "REQUIRED_UNIT": "Item unit like ltr, ml, kg, ... is required.",
+  "INVALID_UNIT": "Item unit should not start with numbers.",
+  "DUPLICATE_ITEM": "Item name already exists!!",
+  "ITEM_VALIDATION_FAILED": "Please correct the following errors"
+}

@@ -8,7 +8,6 @@ class Rates extends InternalStorageModel
     @schema = {
       fields: {
         'item_id': 'String'
-        'item_name': 'String'
         'rate': 'Number'
         'disabled': 'Boolean'
         'created_dt': 'Date'
@@ -31,9 +30,6 @@ class Rates extends InternalStorageModel
     errMsgs = []
     if _.isEmpty params['item_id']
       errMsgs.push CONFIGURED_MESSAGES.REQUIRED_ITEM_ID
-
-    if _.isEmpty params['item_name']
-      errMsgs.push CONFIGURED_MESSAGES.REQUIRED_ITEM_NAME
 
     unless params['rate']?
       errMsgs.push CONFIGURED_MESSAGES.REQUIRED_RATE
@@ -66,7 +62,7 @@ class Rates extends InternalStorageModel
     options = {sort: {created_dt: 'DESC'}}
 
     @getByFilters filters, options, (e, items)=>
-      return cb.apply @, [e, items] 
+      return cb.apply @, [e, items]
   
   disable: (rateIds, cb)->
     rateIds = [rateIds] unless _.isArray rateIds

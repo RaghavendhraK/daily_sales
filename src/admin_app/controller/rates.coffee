@@ -52,60 +52,14 @@ class RatesController extends Controller
       prevRate = null
       for i in [(count-1)..0]
         rates[i]['created_dt'] = moment(rates[i]['created_dt']).format('YYYY-MM-DD')
-        rates[i]['change'] = (rates[i]['rate'] - prevRate) if prevRate?
+        if prevRate?
+          rates[i]['change'] = (rates[i]['rate'] - prevRate)
+          if rates[i]['change'] > 0
+            rates[i]['increased'] = true
+          else
+            rates[i]['decreased'] = true
         prevRate = rates[i]['rate']
     
     return rates
-
-  renderAddItem: (req, res, next)=>
-    renderValues = {
-      page_title: 'Items :: Add'
-    }
-
-    @_renderAddEdit req, res, renderValues
-
-  renderEditItem: (req, res, next)=>
-    renderValues = {
-      page_title: 'Items :: Edit'
-    }
-
-    @itemModel.getById req.params.itemId, (e, item)=>
-      return next(e) if e?
-
-      renderValues['item'] = item
-
-      @_renderAddEdit req, res, renderValues
-
-  _renderAddEdit: (req, res, renderValues)->
-    renderValues['item_types'] = @setSelectedMustacheDropdownValues Constant.ITEM_TYPES, 'key', renderValues['item']?['item_type']
-    # renderValues['csrf_token'] = req.csrfToken()
-    renderValues = @mergeDefRenderValues(req, renderValues)
-    res.render('items/add-edit', renderValues)
-
-  addItem: (req, res, next)=>
-    @itemModel.create req.body, (e)->
-      if e?
-        message = {
-          type: 'error'
-          message: e.message
-        }
-      else
-        item_name = req.body.item_name
-        message = {
-          type: 'success'
-          message: CONFIGURED_MESSAGES.ITEM_ADDED_SUCCESSFULLY
-        }
-      req.flash 'flash_messages', message
-      res.redirect('/items')
-
-  editItem: (req, res, next)=>
-    itemId = req.params['itemId']
-    
-    @itemModel.updateById itemId, req.body, (e)->
-      req.flash 'flash_messages', {
-        type: 'error'
-        message: 'Saved!!'
-      }
-      res.redirect('/items')
 
 module.exports = RatesController

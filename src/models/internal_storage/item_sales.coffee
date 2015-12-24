@@ -3,9 +3,8 @@ InternalStorageModel = require './index'
 class ItemSales extends InternalStorageModel
 
   getSchema: ()->
-    #Field names are in Dutch
     @schema = {
-      fields: { #Fields with MSSQL Datatype
+      fields: {
         'date' : 'Date'
         'shift' : 'String'
         'item_id': 'String'

@@ -104,22 +104,18 @@ class ISAdapter extends Adapter
   #
   # @param {object} fields, Select fields with [col_name1, col_name2]
   # @param {object} filters, Filtering fields with [{col_name: 'value'}]
-  getOne: (fields, filters, cb)->
-    @getConnection (e, db)=>
-      return cb(e, null) if e?
+  getOne: (fields, filters, options, cb)->
+    options = {} unless options?
+    options['limit'] = {} unless options['limit']?
+    options['limit']['offset'] = 0 unless options['limit']['offset']?
+    options['limit']['count'] = 1
 
-      filters['_id'] = @_getInstanceOfObjectId(filters['_id']) if filters['_id']?
+    @get fields, filters, options, (e, records)=>
+      return cb.apply @, [e, null] if e?
 
-      collection = db.collection(@getTableName())
+      return cb.apply @, [null, null] unless records?[0]?
 
-      callback = (e, record)->
-        # db.close()
-        cb.apply @, [null, record]
-
-
-      if fields? and fields.length > 0
-      then collection.findOne(filters, fields, callback)
-      else collection.findOne(filters, callback)
+      return cb.apply @, [null, records[0]]
 
   #
   # ## save

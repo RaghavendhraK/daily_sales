@@ -37,7 +37,6 @@ class SalesController extends Controller
       res.render('sales', renderValues)
 
   saveSales: (req, res, next)=>
-    console.log req.body
     res.redirect '/sales'
 
   _getCashiers: (cb)->

@@ -4,6 +4,7 @@ Constant = require '../../helpers/constant'
 
 _ = require 'underscore'
 moment = require 'moment'
+util = require 'util'
 
 class ItemsController extends Controller
   constructor: ()->
@@ -16,6 +17,7 @@ class ItemsController extends Controller
     server.post('/add-item', @addItem)#@checkAuthentication, @addItem)
     server.get('/edit-item/:itemId', @renderEditItem)#@checkAuthentication, @renderEditItem)
     server.post('/edit-item/:itemId', @editItem)#@checkAuthentication, @editItem)
+    server.get('/delete-item/:itemId', @deleteItem)#@checkAuthentication, @deleteItem)
 
   index: (req, res, next)=>
     renderValues = {
@@ -80,14 +82,15 @@ class ItemsController extends Controller
         message = {
           type: 'error'
           message: e.message
+          errors: e.errors
         }
         req.flash 'flash_messages', message
-        return @renderAddStaff req, res, next
+        return @renderAddItem req, res, next
       else
-        item_name = req.body.item_name
+        itemName = req.body.item_name
         message = {
           type: 'success'
-          message: CONFIGURED_MESSAGES.ITEM_ADDED_SUCCESSFULLY
+          message: util.format(CONFIGURED_MESSAGES.ITEM_ADDED_SUCCESSFULLY, itemName)
         }
         req.flash 'flash_messages', message
         return res.redirect('/items')
@@ -100,16 +103,37 @@ class ItemsController extends Controller
         message = {
           type: 'error'
           message: e.message
+          errors: e.errors
         }
         req.flash 'flash_messages', message
-        return @renderAddStaff req, res, next
+        return @renderEditItem req, res, next
       else
-        item_name = req.body.item_name
+        itemName = req.body.item_name
         message = {
           type: 'success'
-          message: CONFIGURED_MESSAGES.ITEM_ADDED_SUCCESSFULLY
+          message: util.format(CONFIGURED_MESSAGES.ITEM_EDITED_SUCCESSFULLY, itemName)
         }
         req.flash 'flash_messages', message
         return res.redirect('/items')
+
+  deleteItem: (req, res, next)=>
+    itemId = req.params['itemId']
+    
+    @itemModel.deleteById itemId, (e, record)->
+      if e?
+        message = {
+          type: 'error'
+          message: e.message
+        }
+        req.flash 'flash_messages', message
+      else
+        itemName = record?['item_name']
+        message = {
+          type: 'success'
+          message: util.format(CONFIGURED_MESSAGES.ITEM_DELETED_SUCCESSFULLY, itemName)
+        }
+        req.flash 'flash_messages', message
+      
+      return res.redirect('/items')
 
 module.exports = ItemsController

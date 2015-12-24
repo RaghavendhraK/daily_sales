@@ -24,7 +24,15 @@
               <td>{{index}}</td>
               <td>{{created_dt}}</td>
               <td>{{rate}}</td>
-              <td>{{change}}</td>
+              <td>
+                {{change}}
+                {{#increased}}
+                <span class="glyphicon glyphicon-arrow-up"></span>
+                {{/increased}}
+                {{#decreased}}
+                <span class="glyphicon glyphicon-arrow-down"></span>
+                {{/decreased}}
+              </td>
             </tr>
             {{/rates}}
           </table>

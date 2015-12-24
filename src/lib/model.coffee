@@ -47,19 +47,24 @@ class Model
 
   getOne: (filters, args..., cb)->
     fields = []
+    options = {}
     if args?.length > 0
       if args[0] instanceof Array
         fields = args[0]
+        options = args[1] if args[1]? and args[1] instanceof Object
+      else if args[0] instanceof Object
+        options = args[0]
 
-    @getDataAdapter().getOne fields, filters, (e, record)=>
+    @getDataAdapter().getOne fields, filters, options, (e, record)=>
       return cb.apply @, [e, record]
 
   getById: (id, cb)->
     filter = @getFilterWithId(id)
-    @getOne filter, (e, result)=>
+    @getOne filter, (e, record)=>
       return cb.apply @, [e] if e?
-      e = @getErrorObject(CONFIGURED_MESSAGES.DOES_NOT_EXIST, "id", id) unless result?
-      return cb.apply @, [e, result]
+      
+      e = new Error "Record does not exist" unless record?
+      return cb.apply @, [e, record]
 
   getAll: (cb)->
     filter = {}
@@ -86,7 +91,6 @@ class Model
     params['updated_dt'] = new Date
 
     params = @getOnlySchemaFields(params)
-    console.log params
 
     @getDataAdapter().update filters, params, (e)=>
       return cb.apply @, [e]
@@ -116,22 +120,22 @@ class Model
       return cb.apply @, [e]
 
   deleteById: (id, cb)->
-    @isRecordWithIdExists id, (e)=>
+    @isRecordWithIdExists id, (e, record)=>
       return cb.apply @, [e] if e?
 
       filter = @getFilterWithId(id)
-      @delete filter, cb
+      @delete filter, (e)=>
+        return cb.apply @, [e, record]
 
   count: (filters, cb)->
     @getDataAdapter().count filters, (e, count)=>
       return cb.apply @, [e, count]
 
   isRecordWithIdExists: (id, cb)->
-    filter = @getFilterWithId(id)
-    @count filter, (e, count)=>
+    @getById id, (e, record)=>
       return cb.apply @, [e] if e?
 
-      return cb.apply @, [null] if count > 0
+      return cb.apply @, [null, record] if record?
 
       e = new Error("Record with id #{id} not found")
       return cb.apply @, [e]

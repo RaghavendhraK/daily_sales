@@ -1,8 +1,12 @@
-db.createUser({user: "openly", pwd: "indian", roles: [{role: "readWrite", db: "SYNOPS_InternalStorage" }]});
+db.createUser({user: "openly", pwd: "indian", roles: [{role: "readWrite", db: "DAILY_SALES" }]});
+db.createUser({user: "openly", pwd: "indian", roles: [{role: "readWrite", db: "session" }]});
+
+CSS fix:
+Breadcrumbs are behind Top nav bar in CRUD items page.
 
 Under Settings
 CRUD Staff page
-CRUD Items page
+CRUD Items page - done
 
 Under normal
 CRUD Stock page

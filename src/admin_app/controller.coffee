@@ -60,23 +60,27 @@ class AdminAppController
     retValue = {}
 
     flashMsgs = req.flash 'flash_messages'
-    console.log flashMsgs
 
     for msg in flashMsgs
       type = msg['type']
       retValue[type] = [] unless retValue[type]?
 
       messages = []
-      if type is 'error'
-        for error in msg['messages']
+      if type is 'error' and msg?['errors']?
+        messages.push msg['message'] if msg['message']?
+        for error in msg['errors']
           formattedMsg = ''
-          if error['property']?
-            fieldName = error['property'].split('.').pop()
-            formattedMsg += titleCase(fieldName) + ' '
-          formattedMsg += error['message']
+          if error['message']?
+            if error['property']?
+              fieldName = error['property'].split('.').pop()
+              formattedMsg += titleCase(fieldName) + ' '
+            formattedMsg += error['message']
+          else
+            formattedMsg = error
+
           messages.push formattedMsg
       else
-        messages.push msg.message
+        messages.push msg?.message
 
       retValue[type].push {message: messages}
 

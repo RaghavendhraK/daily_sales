@@ -79,7 +79,7 @@ class AdminAppServer
         Log.error(err)
         
       renderValues = { page_title: 'Error', message: err.message }
-      renderValues = controller.mergeDefRenderValues(renderValues)
+      renderValues = controller.mergeDefRenderValues(req, renderValues)
       res.render '500', renderValues
 
       #To DO: restart the application, as it catches uncaught exceptions also

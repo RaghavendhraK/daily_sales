@@ -10,9 +10,8 @@ class DailySales extends InternalStorageModel
     @itemSalesModel = new ItemSalesModel
 
   getSchema: ()->
-    #Field names are in Dutch
     @schema = {
-      fields: { #Fields with MSSQL Datatype
+      fields: {
         'date' : 'Date'
         'shift' : 'String'
         'cashier': 'String'

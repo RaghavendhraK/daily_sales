@@ -102,7 +102,6 @@ class StocksController extends Controller
 
   addStock: (req, res, next)=>
     @stockModel.create req.body, (e)=>
-      console.log e
       if e?
         message = {
           type: 'error'
