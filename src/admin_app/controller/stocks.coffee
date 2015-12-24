@@ -18,11 +18,42 @@ class StocksController extends Controller
     server.get('/stock-receipts', @checkAuthentication, @stockReceipts)
     server.get('/add-stock', @checkAuthentication, @renderAddStock)
     server.post('/add-stock', @checkAuthentication, @addStock)
-    server.get('/edit-stock/:stockId', @checkAuthentication, @renderEditStock)
-    server.post('/edit-stock/:stockId', @checkAuthentication, @editStock)
+    # server.get('/delete-stock', @checkAuthentication, @deleteStock)
 
-  index: (req, res, next)->
-    res.redirect '/stock-receipts'
+  index: (req, res, next)=>
+    renderValues = {
+      page_title: 'Stocks'
+    }
+    items = []
+    stocks = []
+    getItems = (asyncCb)=>
+      filters = {}
+      options = {sort: {item_type: 'ASC', item_name: 'ASC'}}
+      @itemModel.getByFilters filters, options, (e, items)->
+        return asyncCb(e) if e?
+
+        _.each items, (item)->
+          item['_id'] = item['_id'].toString()
+
+        return asyncCb()
+
+    getStocks = (asyncCb)=>
+      @stockModel.getAllStocks (e, stocks)->
+        return asyncCb(e)
+
+    isCbCalled = false
+    async.parallel [getItems, getStocks], (e)=>
+      if e?
+        return next(e) unless isCbCalled
+        isCbCalled = true
+        return
+
+      renderValues['stocks'] = @_formatStocks items, stocks
+
+      # renderValues['csrf_token'] = req.csrfToken()
+      renderValues = @mergeDefRenderValues(req, renderValues)
+
+      res.render('stocks/index', renderValues)
 
   stockReceipts: (req, res, next)=>
     renderValues = {
@@ -58,10 +89,10 @@ class StocksController extends Controller
 
       res.render('stocks/index', renderValues)
 
-  _formatStocks: (stocks, items)->
-    _.each stocks, (stock)->
-      item = _.findWhere items, {_id: stock['item_id']}
-      stock['item_name'] = item?['item_name']
+  _formatStocks: (items, stocks)->
+    _.each items, (item)->
+      stocks = _.findWhere stocks, {item_id: item['_id']}
+      item['stock'] = stock['balance']
       stock['unit'] = item?['unit']
 
     return stocks

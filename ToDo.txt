@@ -5,6 +5,15 @@ CSS fix:
 Breadcrumbs are behind Top nav bar in CRUD items page.
 Staffs list page, if the address is big, then edit link and delete link, comes one below one
 
+Sales
+1)Get the opening reading of the items.
+2)Get the rates for the items.
+3)Save the sales.
+
+Under Reports
+By shift, day, week and month
+Export to Excel
+
 Under Settings
 CRUD Staff page - done
 CRUD Items page - done
@@ -12,12 +21,6 @@ CRUD Items page - done
 Under normal
 CRUD Stock page
 CRUD Attendance page
-
-Sales
-
-Under Reports
-By shift, day, week and month
-Export to Excel
 
 Dashboard
 Low stock alert, missing Data entry alert

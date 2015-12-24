@@ -14,7 +14,7 @@ class Items extends InternalStorageModel
       fields: {
         'item_name': 'String'
         'item_type': 'String'
-        'order': 'Number'
+        'display_order': 'Number'
         'selling_price': 'Number'
         'unit': 'String'
         'disabled': 'Boolean'
@@ -102,19 +102,19 @@ class Items extends InternalStorageModel
 
   getActiveItems: (cb)->
     filters = {disabled: false}
-    options = {sort: {order: 'ASC'}}
+    options = {sort: {item_type: 'ASC', display_order: 'ASC'}}
     @getByFilters filters, options, (e, items)=>
       return cb.apply @, [e, items]
 
   getByItemIds: (itemIds, cb)->
     filters = {_id: {$in: itemIds}}
-    options = {sort: {order: 'ASC'}}
+    options = {sort: {item_type: 'ASC', display_order: 'ASC'}}
     @getByFilters filters, options, (e, items)=>
       return cb.apply @, [e, items]
 
   getAllItems: (cb)->
     filters = {}
-    options = {sort: {order: 'ASC'}}
+    options = {sort: {item_type: 'ASC', display_order: 'ASC'}}
     @getByFilters filters, options, (e, items)=>
       return cb.apply @, [e, items]
 

@@ -89,4 +89,12 @@ class Staffs extends InternalStorageModel
     @getByFilters filters, options, (e, staffs)=>
       return cb.apply @, [e, staffs]
 
+  getCashiers: (cb)->
+    filters = {
+      staff_type: 'cashier'
+    }
+    options = {sort: {staff_name: 'ASC'}}
+    @getByFilters filters, options, (e, staffs)=>
+      return cb.apply @, [e, staffs]
+
 module.exports = Staffs
