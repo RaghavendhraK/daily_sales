@@ -24,7 +24,7 @@ class Staffs extends InternalStorageModel
 
   checkForDuplicate: (staffName, staffId, cb)->
     if _.isEmpty staffName
-      return cb.apply @, [null, true]
+      return cb.apply @, [null, false]
 
     filters = {staff_name: staffName}
 
@@ -38,23 +38,22 @@ class Staffs extends InternalStorageModel
 
   validate: (params, staffId, cb)->
     errMsgs = []
-    if _.isEmpty params['staff_name']
-      errMsgs.push CONFIGURED_MESSAGES.REQUIRED_STAFF_NAME
-
-    if _.isEmpty params['staff_type']
-      errMsgs.push CONFIGURED_MESSAGES.REQUIRED_STAFF_TYPE
-
-    if _.isEmpty params['phone']
-      errMsgs.push CONFIGURED_MESSAGES.REQUIRED_PHONE
-
-    if _.isEmpty params['address']
-      errMsgs.push CONFIGURED_MESSAGES.REQUIRED_ADDRESS
-
     @checkForDuplicate params['staff_name'], staffId, (e, exists)=>
       return cb.apply @, [e] if e?
 
       if exists
         errMsgs.push CONFIGURED_MESSAGES.DUPLICATE_STAFF
+      else if _.isEmpty params['staff_name']
+        errMsgs.push CONFIGURED_MESSAGES.REQUIRED_STAFF_NAME
+
+      if _.isEmpty params['staff_type']
+        errMsgs.push CONFIGURED_MESSAGES.REQUIRED_STAFF_TYPE
+
+      if _.isEmpty params['phone']
+        errMsgs.push CONFIGURED_MESSAGES.REQUIRED_PHONE
+
+      if _.isEmpty params['address']
+        errMsgs.push CONFIGURED_MESSAGES.REQUIRED_ADDRESS
 
       if errMsgs.length > 0
         e = new Error CONFIGURED_MESSAGES.STAFF_VALIDATION_FAILED

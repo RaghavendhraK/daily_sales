@@ -1,9 +1,15 @@
 {
+  "DUPLICATE_ITEM": "Item name already exists!!",
   "REQUIRED_ITEM_NAME": "Item name is required.",
   "REQUIRED_RATE": "Selling price is required.",
   "INVALID_RATE": "Selling price has to be numbers like 12.34, 100, ...",
   "REQUIRED_UNIT": "Item unit like ltr, ml, kg, ... is required.",
   "INVALID_UNIT": "Item unit should not start with numbers.",
-  "DUPLICATE_ITEM": "Item name already exists!!",
-  "ITEM_VALIDATION_FAILED": "Please correct the following errors"
+  "ITEM_VALIDATION_FAILED": "Please correct the following errors",
+  "DUPLICATE_STAFF": "Staff name already exists!!",
+  "REQUIRED_STAFF_NAME": "Staff name is required.",
+  "REQUIRED_STAFF_TYPE": "Staff role is required.",
+  "REQUIRED_PHONE": "Staff phone number is required.",
+  "REQUIRED_ADDRESS": "Staff address is required.",
+  "STAFF_VALIDATION_FAILED": "Please correct the following errors"
 }

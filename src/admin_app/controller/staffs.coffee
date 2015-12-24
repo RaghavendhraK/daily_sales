@@ -66,8 +66,6 @@ class StaffsController extends Controller
     @staffModel.getById req.params.staffId, (e, staff)=>
       return next(e) if e?
 
-      staff['doj'] = moment(staff['doj'], 'YYYY-MM-DD').format('DD/MM/YYYY')
-
       renderValues['staff'] = staff
       @_renderAddEdit req, res, renderValues
 
@@ -77,6 +75,9 @@ class StaffsController extends Controller
       'key',
       renderValues['staff']?['staff_type']
     )
+    if renderValues['staff']?['doj']?
+      renderValues['staff']['doj'] = moment(renderValues['staff']['doj'], 'YYYY-MM-DD').format('DD/MM/YYYY')
+    
     # renderValues['csrf_token'] = req.csrfToken()
     renderValues = @mergeDefRenderValues(req, renderValues)
     res.render('staffs/add-edit', renderValues)
@@ -91,6 +92,7 @@ class StaffsController extends Controller
         message = {
           type: 'error'
           message: e.message
+          errors: e.errors
         }
         req.flash 'flash_messages', message
         return @renderAddStaff req, res, next
@@ -112,9 +114,10 @@ class StaffsController extends Controller
         message = {
           type: 'error'
           message: e.message
+          errors: e.errors
         }
         req.flash 'flash_messages', message
-        return @renderAddStaff req, res, next
+        return @renderEditStaff req, res, next
       else
         staffName = req.body.staff_name
         message = {
@@ -127,16 +130,17 @@ class StaffsController extends Controller
   deleteStaff: (req, res, next)=>
     staffId = req.params['staffId']
 
-    @staffModel.deleteById staffId, (e)=>
+    @staffModel.deleteById staffId, (e, record)->
       if e?
         message = {
           type: 'error'
           message: e.message
         }
       else
+        staffName = record['staff_name']
         message = {
           type: 'success'
-          message: CONFIGURED_MESSAGES.STAFF_DELETED_SUCCESSFULLY
+          message: util.format(CONFIGURED_MESSAGES.STAFF_DELETED_SUCCESSFULLY, staffName)
         }
       req.flash 'flash_messages', message
       return res.redirect('/staffs')

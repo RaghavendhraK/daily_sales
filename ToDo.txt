@@ -3,9 +3,10 @@ db.createUser({user: "openly", pwd: "indian", roles: [{role: "readWrite", db: "s
 
 CSS fix:
 Breadcrumbs are behind Top nav bar in CRUD items page.
+Staffs list page, if the address is big, then edit link and delete link, comes one below one
 
 Under Settings
-CRUD Staff page
+CRUD Staff page - done
 CRUD Items page - done
 
 Under normal
