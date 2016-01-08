@@ -53,7 +53,7 @@ class RatesController extends Controller
       for i in [(count-1)..0]
         rates[i]['created_dt'] = moment(rates[i]['created_dt']).format('YYYY-MM-DD')
         if prevRate?
-          rates[i]['change'] = (rates[i]['rate'] - prevRate)
+          rates[i]['change'] = parseFloat(rates[i]['rate'] - prevRate).toFixed(2)
           if rates[i]['change'] > 0
             rates[i]['increased'] = true
           else

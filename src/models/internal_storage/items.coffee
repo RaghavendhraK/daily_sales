@@ -15,7 +15,7 @@ class Items extends InternalStorageModel
         'item_name': 'String'
         'item_type': 'String'
         'display_order': 'Number'
-        'selling_price': 'Number'
+        'rate': 'Number'
         'unit': 'String'
         'disabled': 'Boolean'
         'created_dt': 'Date'
@@ -49,11 +49,11 @@ class Items extends InternalStorageModel
       else if _.isEmpty params['item_name']
         errMsgs.push CONFIGURED_MESSAGES.REQUIRED_ITEM_NAME
 
-      if _.isEmpty params['selling_price']
+      if _.isEmpty params['rate']
         errMsgs.push CONFIGURED_MESSAGES.REQUIRED_RATE
       else
-        params['selling_price'] = parseFloat(params['selling_price'])
-        if isNaN params['selling_price']
+        params['rate'] = parseFloat(params['rate'])
+        if isNaN params['rate']
           errMsgs.push CONFIGURED_MESSAGES.INVALID_RATE
 
       if _.isEmpty params['unit']
@@ -95,7 +95,7 @@ class Items extends InternalStorageModel
     rateParams = {
       'item_id': itemId
       'item_name': params['item_name']
-      'rate': params['selling_price']
+      'rate': params['rate']
     }
     @rateModel.create rateParams, (e)=>
       return cb.apply @, [e]

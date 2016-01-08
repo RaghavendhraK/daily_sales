@@ -5,13 +5,10 @@ class ItemSales extends InternalStorageModel
   getSchema: ()->
     @schema = {
       fields: {
-        'date' : 'Date'
-        'shift' : 'String'
         'item_id': 'String'
-        'item_name': 'String'
         'opening_stock': 'Number'
         'closing_stock': 'Number'
-        'testing': 'Number'#TODO: find a better name for this
+        'testing': 'Number'
         'sales' : 'Number'
         'rate': 'Number'
         'amount': 'Number'

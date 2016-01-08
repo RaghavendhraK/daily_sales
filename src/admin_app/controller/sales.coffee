@@ -1,6 +1,7 @@
 Controller = require '../controller'
 StaffModel = require '../../models/internal_storage/staffs'
 ItemModel = require '../../models/internal_storage/items'
+DailySalesModel = require '../../models/internal_storage/daily_sales'
 
 async = require 'async'
 _ = require 'underscore'
@@ -11,10 +12,12 @@ class SalesController extends Controller
   constructor: ()->
     @itemModel = new ItemModel
     @staffModel = new StaffModel
+    @dsModel = new DailySalesModel
     super()
 
   setupRoutes: (server)=>
-    server.get('/sales', @index)#@checkAuthentication, @index)
+    server.get('/sales', @index)
+    server.get('/sales/:date/:shift', @index)#@checkAuthentication, @index)
     server.post('/save-sales', @saveSales)#@checkAuthentication, @index)
 
   index: (req, res, next)=>
@@ -40,8 +43,23 @@ class SalesController extends Controller
       renderValues = @mergeDefRenderValues(req, renderValues)
       res.render('sales', renderValues)
 
-  saveSales: (req, res, next)->
-    res.redirect '/sales'
+  saveSales: (req, res, next)=>
+    isOld = req.query?.ds_id?
+
+    if isOld
+      toBeCalledFn = @editSales
+    else
+      toBeCalledFn = @addSales
+
+    return toBeCalledFn req, res, next
+
+  addSales: (req, res, next)=>
+    params = req.body
+    @dsModel.create params, (e)=>
+      return @index req, res, next if e?
+
+      #To be redirected to step 2 page
+      return res.redirect('/sales')
 
   _getCashiers: (cb)->
     @staffModel.getCashiers (e, records)=>
@@ -75,6 +93,8 @@ class SalesController extends Controller
 
       items = _.groupBy items, 'item_type'
 
+      date = moment()
+      @dsModel.getRecent
       # items = {
       #   fuels: [{
       #     _id: '1345'

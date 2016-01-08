@@ -23,7 +23,7 @@ userModel.getOne {username: params.username}, (e, user)->
 
   userModel.create params, (e)->
     if e?
-      console.log e 
+      console.log e
       process.exit(1)
     else
       console.log 'Super admin user created successfully.'

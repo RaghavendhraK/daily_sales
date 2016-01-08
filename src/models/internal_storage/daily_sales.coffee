@@ -9,6 +9,18 @@ class DailySales extends InternalStorageModel
     @itemsModel = new ItemsModel
     @itemSalesModel = new ItemSalesModel
 
+  create: (params, cb)->
+    super params , (e, dsRecord)=>
+      return cb.apply @, [e] if e?
+
+      console.log dsRecord
+
+      params['daily_sales_id'] = dsRecord['_id'].toString()
+      @itemSalesModel.create params, (e)=>
+        return cb.apply @, [e] if e?
+
+        return cb.apply @, [null, dsRecord]
+
   getSchema: ()->
     @schema = {
       fields: {
@@ -26,33 +38,52 @@ class DailySales extends InternalStorageModel
     }
     return @schema
 
+  _getItems: (dsRec, cb)->
+    getItemSales = (asyncCb)=>
+      dailySaleID = dsRec['_id'].toString()
+      @itemSalesModel.getByDailySalesId dailySaleID, (e, itemSales)->
+        return asyncCb(e, itemSales)
+
+    getItems = (itemSales, asyncCb)=>
+      itemIds = _.pluck itemSales, 'item_id'
+      @itemsModel.getByItemIds itemIds, (e, items)->
+        return asyncCb(e) if e?
+
+        orderedItemSales = []
+        _.each items, (item)->
+          itemSale = _.findWhere itemSales, {
+            item_id: item['_id'].toString()
+          }
+          itemSale['item_name'] = item['item_name']
+          orderedItemSales.push itemSale
+
+        return asyncCb(null, orderedItemSales)
+
+    tasks = [getItemSales, getItems]
+    async.waterfall tasks, (e, itemSales)=>
+      return cb.apply @, [e, itemSales]
+
+  #Check why required
   getByDate: (date, cb)->
     filters = {date: date}
-    @getOne filters, (e, dailySale)=>
+    options = {sort: {shift: 'DESC'}}
+
+    @getOne filters, options, (e, dsRec)=>
       return cb.apply @, [e] if e?
 
-      getItemSales = (asyncCb)=>
-        dailySaleID = dailySale['_id'].toString()
-        @itemSalesModel.getByDailySalesId dailySaleID, (e, itemSales)->
-          return asyncCb(e, itemSales)
+      @_getItems dsRec, (e, items)=>
+        return cb.apply @, [e, items]
 
-      getItems = (itemSales, asyncCb)=>
-        itemIds = _.pluck itemSales, 'item_id'
-        @itemsModel.getByItemIds itemIds, (e, items)->
-          return asyncCb(e) if e?
+  getRecent: (date, cb)->
+    filters = {date: {$lt: date}}
+    options = {sort: {
+      date: 'DESC',
+      shift: 'DESC'
+    }}
+    @getOne filters, options, (e, dsRec)=>
+      return cb.apply @, [e] if e?
 
-          orderedItemSales = []
-          _.each items, (item)->
-            itemSale = _.findWhere itemSales, {
-              item_id: item['_id'].toString()
-            }
-            itemSale['item_name'] = item['item_name']
-            orderedItemSales.push itemSale
-
-          return asyncCb(null, orderedItemSales)
-
-      tasks = [getItemSales, getItems]
-      async.waterfall tasks, (e, itemSales)=>
-        return cb.apply @, [e, itemSales]
+      @_getItems dsRec, (e, items)=>
+        return cb.apply @, [e, items]
 
 module.exports = DailySales

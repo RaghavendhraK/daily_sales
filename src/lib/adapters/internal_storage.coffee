@@ -131,7 +131,9 @@ class ISAdapter extends Adapter
       db.collection(@getTableName())
         .save(params, {safe:true, 'new':true}, (e, savedDocs)=>
           # db.close()
-          cb.apply @, [e, savedDocs]
+          return cb.apply @, [e] if e?
+
+          return cb.apply @, [null, savedDocs['ops'][0]]
         )
   #
   # ## bulksave

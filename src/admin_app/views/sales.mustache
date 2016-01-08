@@ -23,8 +23,8 @@
           <div class="col-md-3">
             <label>Cashier</label>
             <div class="input-group">
-              <select name="cashier" class="form-control">
-                <option>--Select--</option>
+              <select required="required" name="cashier" class="form-control">
+                <option value="">--Select--</option>
                 {{#cashiers}}
                 <option {{#selected}}SELECTED="SELECTED"{{/selected}} value="{{key}}">{{value}}</option>
                 {{/cashiers}}
@@ -64,9 +64,9 @@
               <tr>
                 <td>{{item_name}}</td>
                 <td><input class="fuel_opening_reading" name="fuels[{{_id}}][opening_reading]" data-item_id="{{_id}}" type="text" value="{{opening_reading}}" disabled="disabled"/></td>
-                <td><input class="fuel_closing_reading" name="fuels[{{_id}}][closing_reading]" data-item_id="{{_id}}" type="number" value="{{closing_reading}}" min="{{opening_reading}}" step="1"/></td>
+                <td><input required="required" class="fuel_closing_reading" name="fuels[{{_id}}][closing_reading]" data-item_id="{{_id}}" type="number" value="{{closing_reading}}" min="{{opening_reading}}" step="1"/></td>
                 <td><input class="fuel_sales" name="fuels[{{_id}}][sales]" data-item_id="{{_id}}" type="text" value="{{sales}}" disabled="disabled"/></td>
-                <td><input class="fuel_rate" name="fuels[{{_id}}][rate]" data-item_id="{{_id}}" type="number" value="{{rate}}" min="0" step="any"/></td>
+                <td><input required="required" class="fuel_rate" name="fuels[{{_id}}][rate]" data-item_id="{{_id}}" type="number" value="{{rate}}" min="0" step="any"/></td>
                 <td><input class="fuel_amount" name="fuels[{{_id}}][amount]" data-item_id="{{_id}}" type="text" value="{{amount}}" disabled="disabled"/></td>
               </tr>
               {{/fuels}}
@@ -98,9 +98,9 @@
               <tr>
                 <td>{{item_name}}</td>
                 <td><input class="lube_opening_stock" name="lubes[{{_id}}][opening_stock]" data-item_id="{{_id}}" type="number" value="{{opening_stock}}" disabled="disabled"/></td>
-                <td><input class="lube_closing_stock" name="lubes[{{_id}}][closing_stock]" data-item_id="{{_id}}" type="number" value="{{closing_stock}}" min="0" max="{{opening_stock}}" step="1"/></td>
+                <td><input required="required" class="lube_closing_stock" name="lubes[{{_id}}][closing_stock]" data-item_id="{{_id}}" type="number" value="{{closing_stock}}" min="0" max="{{opening_stock}}" step="1"/></td>
                 <td><input class="lube_sales" name="lubes[{{_id}}][sales]" data-item_id="{{_id}}" type="text" value="{{sales}}" disabled="disabled"/></td>
-                <td><input class="lube_rate" name="lubes[{{_id}}][rate]" data-item_id="{{_id}}" type="number" value="{{rate}}" min="0" step="any"/></td>
+                <td><input required="required" class="lube_rate" name="lubes[{{_id}}][rate]" data-item_id="{{_id}}" type="number" value="{{rate}}" min="0" step="any"/></td>
                 <td><input class="lube_amount" name="lubes[{{_id}}][amount]" data-item_id="{{_id}}" type="text" value="{{amount}}" disabled="disabled"/></td>
               </tr>
               {{/lubes}}
