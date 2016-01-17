@@ -77,7 +77,7 @@ class Items extends InternalStorageModel
       super params, (e, savedItem)=>
         return cb.apply @, [e] if e?
 
-        itemId = savedItem['ops'][0]['_id'].toString()
+        itemId = savedItem['_id'].toString()
         @createRates itemId, params, (e)=>
           return cb.apply @, [e, savedItem]
 

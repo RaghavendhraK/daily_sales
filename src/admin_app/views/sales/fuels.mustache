@@ -1,0 +1,45 @@
+{{> header}}
+{{> navbar}}
+<div class="container mtLarge">
+  <div class="row">
+    <div class="col-md-12">
+      <ol class="breadcrumb">
+        <li><a href="/dashboard">Dashboard</a></li>
+        <li class="active">Sales</li>
+      </ol>
+      <div class="row well">
+        <ul>
+          <ol>To Do</ol>
+          <ol>Make opening and closing stock 3 digit.</ol>
+          <ol>Make numbers right format.</ol>
+          <ol>Make Sales, Amount, Total sales highlight.</ol>
+          <ol>Rate and amount money formatted.</ol>
+          <ol>BreadCrumbs not visible.</ol>
+        </ul>
+      </div>
+      <div class="row">
+        <div class="col-md-8">
+          <h2 class="page-header align-header">Step 2 Fuels :: Sales</h2>
+          {{> flash_message}}
+          <form action="/sales/fuels" method="POST">
+            <div class="row well">
+              <div class="col-md-2">Item</div>
+              <div class="col-md-2">Opening</div>
+              <div class="col-md-2">Closing</div>
+              <div class="col-md-2">Sales</div>
+              <div class="col-md-2">Rate</div>
+              <div class="col-md-2">Amount</div>
+            </div>
+            <div class="row">
+              <button type="submit" class="btn btn-primary pull-right">Save</button>
+            </div>
+          </form>
+        </div>
+        <div class="col-md-4">
+          {{> sales_steps}}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{{> footer}}

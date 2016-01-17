@@ -1,0 +1,26 @@
+<h3 class="page-header">
+  Steps
+</h3>
+<ul class="nav nav-pills nav-stacked">
+  <li {{#sales_step1}}class="active"{{/sales_step1}}>
+    <a href="/sales/step1" title="Step 1"><span class="glyphicon glyphicon-user"></span> Step 1</a>
+  </li>
+  <li {{#sales_fuels}}class="active"{{/sales_fuels}}>
+    <a href="/sales/fuels" title="Fuels"><span class="glyphicon glyphicon-asterisk"></span> Fuels</a>
+  </li>
+  <li {{#sales_lubes}}class="active"{{/sales_lubes}}>
+    <a href="/sales/lubes" title="Lubes"><span class="glyphicon glyphicon-ok"></span> Lubes</a>
+  </li>
+  <li {{#sales_others}}class="active"{{/sales_others}}>
+    <a href="/sales/others" title="Others"><span class="glyphicon glyphicon-zoom-in"></span> Others</a>
+  </li>
+  <li {{#sales_expenses}}class="active"{{/sales_expenses}}>
+    <a href="/sales/expenses" title="Expenses"><span class="glyphicon glyphicon-minus"></span> Expenses</a>
+  </li>
+  <li {{#sales_receipts}}class="active"{{/sales_receipts}}>
+    <a href="/sales/receipts" title="Receipts"><span class="glyphicon glyphicon-plus"></span> Receipts</a>
+  </li>
+  <li {{#sales_summary}}class="active"{{/sales_summary}}>
+    <a href="/sales/summary" title="Summary"><span class="glyphicon glyphicon-list-alt"></span> Summary</a>
+  </li>
+</ul>

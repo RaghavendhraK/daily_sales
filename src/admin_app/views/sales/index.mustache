@@ -1,0 +1,69 @@
+{{> header}}
+{{> navbar}}
+<div class="container mtLarge">
+  <div class="row">
+    <div class="col-md-12">
+      <ol class="breadcrumb">
+        <li><a href="/dashboard">Dashboard</a></li>
+        <li class="active">Sales</li>
+      </ol>
+      <div class="row well">
+        <ul>
+          <ol>To Do</ol>
+          <ol>Make opening and closing stock 3 digit.</ol>
+          <ol>Make numbers right format.</ol>
+          <ol>Make Sales, Amount, Total sales highlight.</ol>
+          <ol>Rate and amount money formatted.</ol>
+          <ol>BreadCrumbs not visible.</ol>
+        </ul>
+      </div>
+      <div class="row">
+        <div class="col-md-8">
+          <h2 class="page-header align-header">Step 1 :: Sales</h2>
+          {{> flash_message}}
+          <form action="/sales/step1" method="POST">
+            <div class="row well">
+              <div class="col-md-4">
+                <label>Cashier</label>
+                <div class="input-group">
+                  <select required="required" name="cashier" class="form-control">
+                    <option value="">--Select--</option>
+                    <option value="dummy">Dummy 1</option>
+                    {{#cashiers}}
+                    <option {{#selected}}SELECTED="SELECTED"{{/selected}} value="{{key}}">{{value}}</option>
+                    {{/cashiers}}
+                  </select>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <label>Date</label>
+                <div class="datepicker input-group date">
+                  <input type="text" class="form-control" value="{{date}}" required="required" name="date">
+                  <span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <label>Shift</label>
+                <div class="input-group">
+                  <select name="shift" class="form-control" required="required">
+                    <option value="dummy">Dummy 1</option>
+                    {{#shifts}}
+                    <option {{#selected}}SELECTED="SELECTED"{{/selected}} value="{{key}}">{{value}}</option>
+                    {{/shifts}}
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <button type="submit" class="btn btn-primary pull-right">Save</button>
+            </div>
+          </form>
+        </div>
+        <div class="col-md-4">
+          {{> sales_steps}}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{{> footer}}
