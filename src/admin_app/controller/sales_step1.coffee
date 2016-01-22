@@ -1,6 +1,5 @@
 Controller = require '../controller'
-StaffModel = require '../../models/internal_storage/staffs'
-DailySalesModel = require '../../models/internal_storage/daily_sales'
+StaffBL = require '../business_logic/sales_step'
 
 async = require 'async'
 _ = require 'underscore'
@@ -28,6 +27,8 @@ class SalesIndexController extends Controller
       page_title: 'Sales::Step 1'
       sales_step1: true
     }
+
+    renderValues['cashiers'] = @
 
     renderValues = @mergeDefRenderValues(req, renderValues)
     res.render('sales/index', renderValues)
