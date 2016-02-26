@@ -6,6 +6,7 @@ titleCase = require 'title-case'
 _ = require 'underscore'
 
 class AdminAppController
+  
   constructor: ()->
     @loginModel = new LoginModel()
     @auditLogModel = new AuditLogModel()

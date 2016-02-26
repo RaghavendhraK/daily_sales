@@ -1,5 +1,5 @@
 Controller = require '../controller'
-StaffBL = require '../business_logic/sales_step'
+BLModel = require '../business_logic/sales_step1'
 
 async = require 'async'
 _ = require 'underscore'
@@ -8,8 +8,7 @@ moment = require 'moment'
 class SalesIndexController extends Controller
 
   constructor: ()->
-    @staffModel = new StaffModel
-    @dsModel = new DailySalesModel
+    @blModel = new BLModel
     super()
 
   setupRoutes: (server)=>
@@ -28,12 +27,39 @@ class SalesIndexController extends Controller
       sales_step1: true
     }
 
-    renderValues['cashiers'] = @
+    getCashiers = (asyncCb)=>
+      @blModel.getCashiers (e, cashiers)=>
+        return asyncCb(e) if e?
 
-    renderValues = @mergeDefRenderValues(req, renderValues)
-    res.render('sales/index', renderValues)
+        cashiers = @setSelectedMustacheDropdownValues cashiers, '_id'
+        return asyncCb(null, cashiers)
+
+    getShifts = (asyncCb)=>
+      @blModel.getShifts (e, shifts)=>
+        return asyncCb(e) if e?
+
+        shifts = @setSelectedMustacheDropdownValues shifts, 'key'
+        return asyncCb(null, shifts)
+
+    tasks = {
+      cashiers: getCashiers,
+      shifts: getShifts
+    }
+    async.parallel tasks, (e, result)=>
+      return next(e) if e?
+
+      renderValues['cashiers'] = result['cashiers']
+      renderValues['shifts'] = result['shifts']
+
+      renderValues = @mergeDefRenderValues(req, renderValues)
+      res.render('sales/index', renderValues)
 
   saveStep1: (req, res, next)=>
-    res.redirect('/sales/fuels')
+    params = req.body
+    @blModel.save params, (e, record)=>
+      return next(e) if e?
+      
+      dsId = record['_id'].toString()
+      return res.redirect "/sales/fuels/#{dsId}"
 
 module.exports = SalesIndexController

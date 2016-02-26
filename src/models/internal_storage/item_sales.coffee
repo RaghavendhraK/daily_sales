@@ -37,7 +37,7 @@ class ItemSales extends InternalStorageModel
     @getByFilters filters, (e, itemSales)=>
       return cb.apply @, [e, itemSales]
 
-  getOpeningStocks: (date, shift, cb)->
+  getRecent: (cb)->
     
 
 module.exports = ItemSales

@@ -31,4 +31,8 @@ class Constant
 
   @DATE_FORMAT = 'YYYY-MM-DD HH:mm'
 
+  @SHIFTS = [
+    'S1', 'S2', 'S3'
+  ]
+
 module.exports = Constant

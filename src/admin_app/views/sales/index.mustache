@@ -28,9 +28,8 @@
                 <div class="input-group">
                   <select required="required" name="cashier" class="form-control">
                     <option value="">--Select--</option>
-                    <option value="dummy">Dummy 1</option>
                     {{#cashiers}}
-                    <option {{#selected}}SELECTED="SELECTED"{{/selected}} value="{{key}}">{{value}}</option>
+                    <option {{#selected}}SELECTED="SELECTED"{{/selected}} value="{{_id}}">{{staff_name}}</option>
                     {{/cashiers}}
                   </select>
                 </div>
@@ -46,7 +45,6 @@
                 <label>Shift</label>
                 <div class="input-group">
                   <select name="shift" class="form-control" required="required">
-                    <option value="dummy">Dummy 1</option>
                     {{#shifts}}
                     <option {{#selected}}SELECTED="SELECTED"{{/selected}} value="{{key}}">{{value}}</option>
                     {{/shifts}}

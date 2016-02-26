@@ -22,7 +22,7 @@ class Staffs extends InternalStorageModel
     }
     return @schema
 
-  checkForDuplicate: (staffName, staffId, cb)->
+  isDuplicate: (staffName, staffId, cb)->
     if _.isEmpty staffName
       return cb.apply @, [null, false]
 
@@ -38,7 +38,7 @@ class Staffs extends InternalStorageModel
 
   validate: (params, staffId, cb)->
     errMsgs = []
-    @checkForDuplicate params['staff_name'], staffId, (e, exists)=>
+    @isDuplicate params['staff_name'], staffId, (e, exists)=>
       return cb.apply @, [e] if e?
 
       if exists

@@ -9,18 +9,6 @@ class DailySales extends InternalStorageModel
     @itemsModel = new ItemsModel
     @itemSalesModel = new ItemSalesModel
 
-  create: (params, cb)->
-    super params , (e, dsRecord)=>
-      return cb.apply @, [e] if e?
-
-      console.log dsRecord
-
-      params['daily_sales_id'] = dsRecord['_id'].toString()
-      @itemSalesModel.create params, (e)=>
-        return cb.apply @, [e] if e?
-
-        return cb.apply @, [null, dsRecord]
-
   getSchema: ()->
     @schema = {
       fields: {

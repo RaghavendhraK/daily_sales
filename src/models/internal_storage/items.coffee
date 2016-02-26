@@ -26,7 +26,7 @@ class Items extends InternalStorageModel
     }
     return @schema
 
-  checkForDuplicate: (itemName, itemId, cb)->
+  isDuplicate: (itemName, itemId, cb)->
     return cb.apply @, [null, false] if _.isEmpty itemName
 
     filters = {item_name: itemName}
@@ -41,10 +41,10 @@ class Items extends InternalStorageModel
 
   validate: (params, itemId, cb)->
     errMsgs = []
-    @checkForDuplicate params['item_name'], itemId, (e, exists)=>
+    @isDuplicate params['item_name'], itemId, (e, duplicate)=>
       return cb.apply @, [e] if e?
 
-      if exists
+      if duplicate
         errMsgs.push CONFIGURED_MESSAGES.DUPLICATE_ITEM
       else if _.isEmpty params['item_name']
         errMsgs.push CONFIGURED_MESSAGES.REQUIRED_ITEM_NAME
@@ -114,6 +114,12 @@ class Items extends InternalStorageModel
 
   getAllItems: (cb)->
     filters = {}
+    options = {sort: {item_type: 'ASC', display_order: 'ASC'}}
+    @getByFilters filters, options, (e, items)=>
+      return cb.apply @, [e, items]
+
+  getFuels: (cb)->
+    filters = {item_type: 'fuel'}
     options = {sort: {item_type: 'ASC', display_order: 'ASC'}}
     @getByFilters filters, options, (e, items)=>
       return cb.apply @, [e, items]

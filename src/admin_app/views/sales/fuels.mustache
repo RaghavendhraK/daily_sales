@@ -18,24 +18,48 @@
         </ul>
       </div>
       <div class="row">
-        <div class="col-md-8">
+        <div class="col-md-10">
           <h2 class="page-header align-header">Step 2 Fuels :: Sales</h2>
           {{> flash_message}}
           <form action="/sales/fuels" method="POST">
             <div class="row well">
-              <div class="col-md-2">Item</div>
+              <div class="col-md-1">Item</div>
               <div class="col-md-2">Opening</div>
               <div class="col-md-2">Closing</div>
+              <div class="col-md-1">Testing</div>
               <div class="col-md-2">Sales</div>
               <div class="col-md-2">Rate</div>
               <div class="col-md-2">Amount</div>
             </div>
+            {{#fuels}}
+            <div class="row">
+              <div class="col-md-1">{{item_name}}</div>
+              <div class="col-md-2">
+                <input class="form-control" type="number" readonly="true" name="item[{{_id}}]['opening']" value="{{opening}}"/>
+              </div>
+              <div class="col-md-2">
+                <input class="form-control" type="number" name="item[{{_id}}]['closing']" value="{{closing}}"/>
+              </div>
+              <div class="col-md-1">
+                <input class="form-control" type="number" name="item[{{_id}}]['testing']" value="{{testing}}"/>
+              </div>
+              <div class="col-md-2">
+                <input class="form-control" type="number" readonly="true" name="item[{{_id}}]['sales']" value="{{sales}}"/>
+              </div>
+              <div class="col-md-2">
+                <input class="form-control" type="number" readonly="true" name="item[{{_id}}]['rate']" value="{{rate}}"/>
+              </div>
+              <div class="col-md-2">
+                <input class="form-control" type="number" readonly="true" name="item[{{_id}}]['amount']" value="{{amount}}"/>
+              </div>
+            </div>
+            {{/fuels}}
             <div class="row">
               <button type="submit" class="btn btn-primary pull-right">Next</button>
             </div>
           </form>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-2">
           {{> sales_steps}}
         </div>
       </div>
