@@ -35,4 +35,14 @@ class Constant
     'S1', 'S2', 'S3'
   ]
 
+  @ACCOUNT_TYPES = [
+   {
+      key: 'expenses',
+      value: 'EXPENSES'
+    }, {
+      key: 'receipts',
+      value: 'RECEIPTS'
+    }
+  ]
+
 module.exports = Constant

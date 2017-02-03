@@ -1,21 +1,34 @@
 Controller = require '../controller'
-ItemModel = require '../../models/internal_storage/items'
-DailySalesModel = require '../../models/internal_storage/daily_sales'
+BLModel = require '../business_logic/sales_others'
 
-async = require 'async'
 _ = require 'underscore'
-moment = require 'moment'
 
 class SalesOtherController extends Controller
 
   constructor: ()->
-    @itemModel = new ItemModel
-    @dsModel = new DailySalesModel
+    @blModel = new BLModel
     super()
 
   setupRoutes: (server)=>
-    server.get('/sales/others', @index)
-    server.post('/sales/others', @saveOtherSales)#@checkAuthentication, @index)
+    server.get('/sales/others/:dsId', @index)
+    server.post('/sales/others/:dsId', @saveOtherSales)#@checkAuthentication, @index)
+
+  _getOtherItems: (req, cb)=>
+    returnValues = {}
+
+    dsId = req.params['dsId']
+    returnValues['ds_id'] = dsId
+    
+    unless _.isEmpty(req.body)
+      returnValues['others'] = _.values(req.body['items'])
+      returnValues['other_total'] = req.body['other_total']
+      return cb(null, returnValues)
+    else
+      @blModel.getOtherItems dsId, (e, others)->
+        return cb(e) if e?
+
+        returnValues['others'] = others
+        return cb(null, returnValues)
 
   index: (req, res, next)=>
     renderValues = {
@@ -23,27 +36,19 @@ class SalesOtherController extends Controller
       sales_others: true
     }
 
-    tasks = {
-      items: @_getItems.bind(@)
-    }
-
-    async.parallel tasks, (e, results)=>
+    @_getOtherItems req, (e, result)=>
       return next(e) if e?
 
-      renderValues['fuels'] = results['items']['fuel']
+      renderValues = _.extend renderValues, result
 
       renderValues = @mergeDefRenderValues(req, renderValues)
       res.render('sales/others', renderValues)
 
   saveOtherSales: (req, res, next)=>
-    res.redirect('/sales/expenses')
+    @blModel.save req.body, (e)=>
+      return @index(req, res, next) if e?
 
-  _getItems: (cb)->
-    @itemModel.getAll (e, items)=>
-      return cb.apply @, [e] if e?
-
-      items = _.groupBy items, 'item_type'
-
-      return cb.apply @, [null, items]
+      dsId = req.body['dsId']
+      return res.redirect("/sales/expenses/#{dsId}")
 
 module.exports = SalesOtherController

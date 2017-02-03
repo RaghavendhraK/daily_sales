@@ -20,6 +20,7 @@ class LoginController extends Controller
 
     renderValues = {
       page_title: 'Login'
+      username: 'admin'
     }
 
     # renderValues['csrf_token'] = req.csrfToken()
@@ -38,9 +39,9 @@ class LoginController extends Controller
 
       req.session.logged_in_user = userDetails
       if req.session.redirect_to?.length > 0
-        #Redirect to the originally requested pag2929e
+        #Redirect to the originally requested page
       then res.redirect(req.session.redirect_to)
-      else res.redirect('/dashboard')
+      else res.redirect('/sales/step1')
 
   _renderLoginFail: (req, res, next)->
     renderValues = {

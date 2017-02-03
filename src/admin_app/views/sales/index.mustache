@@ -18,7 +18,7 @@
         </ul>
       </div>
       <div class="row">
-        <div class="col-md-8">
+        <div class="col-md-10">
           <h2 class="page-header align-header">Step 1 :: Sales</h2>
           {{> flash_message}}
           <form action="/sales/step1" method="POST">
@@ -57,9 +57,11 @@
             </div>
           </form>
         </div>
-        <div class="col-md-4">
+        {{#ds_id}}
+        <div class="col-md-2">
           {{> sales_steps}}
         </div>
+        {{/ds_id}}
       </div>
     </div>
   </div>

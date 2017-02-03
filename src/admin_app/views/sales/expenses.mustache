@@ -5,37 +5,51 @@
     <div class="col-md-12">
       <ol class="breadcrumb">
         <li><a href="/dashboard">Dashboard</a></li>
-        <li class="active">Sales</li>
+        <li class="active">Expenses</li>
       </ol>
-      <div class="row well">
-        <ul>
-          <ol>To Do</ol>
-          <ol>Make opening and closing stock 3 digit.</ol>
-          <ol>Make numbers right format.</ol>
-          <ol>Make Sales, Amount, Total sales highlight.</ol>
-          <ol>Rate and amount money formatted.</ol>
-          <ol>BreadCrumbs not visible.</ol>
-        </ul>
-      </div>
       <div class="row">
-        <div class="col-md-8">
+        <div class="col-md-10">
           <h2 class="page-header align-header">Step 5 Expenses :: Sales</h2>
           {{> flash_message}}
-          <form action="/sales/expenses" method="POST">
+          <form id="expense_sales" action="/sales/expenses/{{ds_id}}" method="POST">
             <div class="row well">
-              <div class="col-md-2">Item</div>
-              <div class="col-md-2">Opening</div>
-              <div class="col-md-2">Closing</div>
-              <div class="col-md-2">Sales</div>
-              <div class="col-md-2">Rate</div>
-              <div class="col-md-2">Amount</div>
+              <table class="table">
+                <thead>
+                  <th style="text-align:center">Expenses</th>
+                  <th style="text-align:center">Info</th>
+                  <th style="text-align:center">Ref No.</th>
+                  <th style="text-align:center">Amount</th>
+                </thead>
+                <tbody>
+                  {{#expenses}}
+                  <tr>
+                    <td>{{account_name}}</td>
+                    <td><input data-item_id="{{_id}}" class="form-control" type="text" placeholder="Add info(optional)" name="accounts[{{_id}}][info]" value="{{info}}"/></td>
+                    <td><input data-item_id="{{_id}}" class="form-control" type="text" placeholder="Reference no.(optional)" name="accounts[{{_id}}][ref_no]" value="{{ref_no}}"/></td>
+                    <td><input data-item_id="{{_id}}" class="form-control expense_amount" type="text" name="accounts[{{_id}}][amount]" value="{{amount}}"/></td>
+                    <input type="hidden" name="accounts[{{_id}}][account_name]" value="{{account_name}}">
+                    <input type="hidden" name="accounts[{{_id}}][account_type]" value="{{account_type}}">
+                    <input type="hidden" name="accounts[{{_id}}][_id]" value="{{_id}}">
+                  </tr>
+                  {{/expenses}}
+                  <tfoot>
+                    <tr>
+                      <td></td>
+                      <td></td>
+                      <td style="text-align:center"><strong>Total</strong></td>
+                      <td><input class="form-control" id="expense_total" type="text" readonly="true" name="expense_total"/></td>
+                      <input type="hidden" name="dsId" value="{{ds_id}}">
+                    </tr>
+                  </tfoot>
+                </tbody>
+              </table>
             </div>
             <div class="row">
               <button type="submit" class="btn btn-primary pull-right">Next</button>
             </div>
           </form>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-2">
           {{> sales_steps}}
         </div>
       </div>

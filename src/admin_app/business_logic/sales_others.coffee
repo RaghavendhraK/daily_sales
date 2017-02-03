@@ -5,19 +5,19 @@ DSModel = require '../../models/internal_storage/daily_sales'
 async = require 'async'
 _ = require 'underscore'
 
-class SalesFuelsBL
+class SalesOthersBL
 
   constructor: ()->
     @itemModel = new ItemModel
     @isModel = new ISModel
     @dsModel = new DSModel
 
-  getFuelItems: (dsId, cb)->
-    fuels = []
-    _getFuelItems = (asyncCb)=>
-      @itemModel.getFuels (e, records)->
+  getOtherItems: (dsId, cb)->
+    others = []
+    _getOtherItems = (asyncCb)=>
+      @itemModel.getOthers (e, records)->
         return asyncCb(e) if e?
-        fuels = records
+        others = records
         return asyncCb()
     
     dsRecord = {}
@@ -28,9 +28,9 @@ class SalesFuelsBL
         return asyncCb()
 
     saleItems = []
-    _getFuelItemSales = (asyncCb)=>
+    _getOtherItemSales = (asyncCb)=>
       itemIds = []
-      for temp in fuels
+      for temp in others
         itemIds.push temp['_id'].toString()
 
       @isModel.getItemsByDailySalesId itemIds, dsId, (e, records)=>
@@ -57,31 +57,33 @@ class SalesFuelsBL
 
             return asyncCb()
 
-    tasks = [_getFuelItems, _getDailySales, _getFuelItemSales]
-    async.series tasks, (e)=>
+    tasks = [_getOtherItems, _getDailySales, _getOtherItemSales]
+    async.series tasks, (e, result)=>
       return cb.apply @, [e] if e?
 
-      for fuel in fuels
+      for other in others
         saleItem = _.find saleItems, (temp)->
-          return temp['item_id'] is fuel['_id']?.toString()
+          return temp['item_id'] is other['_id']?.toString()
         
         if saleItem?
-          fuel['opening'] = saleItem['opening']
-          fuel['closing'] = saleItem['closing']
-          fuel['testing'] = saleItem['testing']
+          other['opening'] = saleItem['opening']
+          other['add'] = saleItem['add']
+          other['closing'] = saleItem['closing']
+          other['testing'] = saleItem['testing']
         else
-          fuel['isOpeningEditable'] = true
-          fuel['opening'] = 0
-          fuel['closing'] = 0
-          fuel['testing'] = 0
+          other['opening'] = 0
+          other['add'] = 0
+          other['closing'] = 0
+          other['testing'] = 0
 
-      return cb.apply @, [null, fuels]
+      return cb.apply @, [null, others]
 
   save: (params, cb)->
     dsId = params['dsId']
     insertItemSales = (sale, itemId, asyncCb)=>
       tmpParams = {
         opening: sale['opening'],
+        add: sale['add'],
         closing: sale['closing'],
         testing: sale['testing'],
         sales: sale['sales'],
@@ -96,8 +98,8 @@ class SalesFuelsBL
     async.eachOf params['items'], insertItemSales, (e)=>
       return cb.apply @, [e] if e?
 
-      tmpParams = { fuels: params['fuel_total'] }
-      @dsModel.updateById dsId, tmpParams, (e)=>
+      params = { others: params['other_total'] }
+      @dsModel.updateById dsId, params, (e)=>
         return cb.apply @, [e]
 
-module.exports = SalesFuelsBL
+module.exports = SalesOthersBL

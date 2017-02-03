@@ -59,7 +59,7 @@ class AdminAppServer
   listen: (port, cb)->
     throw new Error 'Server is not created yet' unless @server?
     
-    Log.info("Admin App Started at port #{port}")
+    Log.info("Admin App at http://localhost:#{port} or http://daily-sales.co")
     @server.listen port, cb
 
   handleException: ()->

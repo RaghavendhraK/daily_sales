@@ -11,5 +11,7 @@
   "REQUIRED_STAFF_TYPE": "Staff role is required.",
   "REQUIRED_PHONE": "Staff phone number is required.",
   "REQUIRED_ADDRESS": "Staff address is required.",
-  "STAFF_VALIDATION_FAILED": "Please correct the following errors"
+  "STAFF_VALIDATION_FAILED": "Please correct the following errors",
+  "DUPLICATE_ACCOUNT": "Account name already exists!!",
+  "REQUIRED_ACCOUNT_NAME": "Account name is required."
 }

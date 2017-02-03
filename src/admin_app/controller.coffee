@@ -14,7 +14,23 @@ class AdminAppController
   getMustacheDefaultValues: ()->
     unless @defaultRenderValues?
       @defaultRenderValues = {
-        'static_url': '/static'
+        static_url: '/static',
+        currency: ()->
+          return (text, render)->
+            str = render(text)
+            if isNaN(str)
+              return 'NaN'
+            #Indian currency format
+            str = parseFloat(str).toFixed(2)
+            afterPoint = ''
+            if (str.indexOf('.') > 0)
+              afterPoint = str.substring(str.indexOf('.'), str.length)
+            str = Math.floor(str).toString()
+            lastThree = str.substring(str.length - 3)
+            otherNumbers = str.substring(0, str.length - 3)
+            if (otherNumbers != '')
+              lastThree = ',' + lastThree
+            return otherNumbers.replace(/\B(?=(\d{2})+(?!\d))/g, ",") + lastThree + afterPoint
       }
     return @defaultRenderValues
 
@@ -46,7 +62,9 @@ class AdminAppController
   auditLog: (req, res, next)=>
     res.on 'finish', ()=>
       #To Do: send the correct data to log
-      @auditLogModel.log req, res, ->
+      console.log 'I am logging'
+      @auditLogModel.log req, res, ()->
+        
     return next()
   
   checkCSRFToken: (req, res, next)->

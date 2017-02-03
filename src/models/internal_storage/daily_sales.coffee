@@ -15,6 +15,11 @@ class DailySales extends InternalStorageModel
         'date' : 'Date'
         'shift' : 'String'
         'cashier': 'String'
+        'fuels': 'Number'
+        'lubes': 'Number'
+        'others': 'Number'
+        'expenses': 'Number'
+        'receipts': 'Number'
         'cash': 'Number'
         'balance': 'Number'
         'remarks' : 'String'
@@ -63,7 +68,7 @@ class DailySales extends InternalStorageModel
         return cb.apply @, [e, items]
 
   getRecent: (date, cb)->
-    filters = {date: {$lt: date}}
+    filters = {date: {$lte: date}}
     options = {sort: {
       date: 'DESC',
       shift: 'DESC'
@@ -73,5 +78,26 @@ class DailySales extends InternalStorageModel
 
       @_getItems dsRec, (e, items)=>
         return cb.apply @, [e, items]
+
+  getPrevious: (date, shift, cb)->
+    filters = {
+      $and: [
+        { date: { $lte: date } }
+        {
+          $or: [
+            { date: { $ne: date } }
+            { shift: { $ne: shift } }
+          ]
+        }
+      ]
+    }
+    options = {
+      sort: {
+        date: 'DESC',
+        shift: 'DESC'
+      }
+    }
+    @getOne filters, options, (e, dsRec)=>
+      return cb.apply @, [e, dsRec]
 
 module.exports = DailySales

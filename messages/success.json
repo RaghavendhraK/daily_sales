@@ -4,5 +4,8 @@
   "ITEM_DELETED_SUCCESSFULLY": "Item '%s' deleted successfully.",
   "STAFF_ADDED_SUCCESSFULLY": "New staff '%s' added successfully.",
   "STAFF_EDITED_SUCCESSFULLY": "Staff '%s' updated successfully.",
-  "STAFF_DELETED_SUCCESSFULLY": "Staff '%s' deleted successfully."
+  "STAFF_DELETED_SUCCESSFULLY": "Staff '%s' deleted successfully.",
+  "ACCOUNT_ADDED_SUCCESSFULLY": "New account '%s' added successfully.",
+  "ACCOUNT_EDITED_SUCCESSFULLY": "Account '%s' updated successfully.",
+  "ACCOUNT_DELETED_SUCCESSFULLY": "Account '%s' deleted successfully."
 }

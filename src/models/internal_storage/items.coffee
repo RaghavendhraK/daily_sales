@@ -124,4 +124,16 @@ class Items extends InternalStorageModel
     @getByFilters filters, options, (e, items)=>
       return cb.apply @, [e, items]
 
+  getLubes: (cb)->
+    filters = {item_type: 'lubes'}
+    options = {sort: {item_type: 'ASC', display_order: 'ASC'}}
+    @getByFilters filters, options, (e, items)=>
+      return cb.apply @, [e, items]
+
+  getOthers: (cb)->
+    filters = {item_type: 'others'}
+    options = {sort: {item_type: 'ASC', display_order: 'ASC'}}
+    @getByFilters filters, options, (e, items)=>
+      return cb.apply @, [e, items]
+
 module.exports = Items

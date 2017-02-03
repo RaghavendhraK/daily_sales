@@ -1,21 +1,34 @@
 Controller = require '../controller'
-ItemModel = require '../../models/internal_storage/items'
-DailySalesModel = require '../../models/internal_storage/daily_sales'
+BLModel = require '../business_logic/sales_lubes'
 
-async = require 'async'
 _ = require 'underscore'
-moment = require 'moment'
 
 class SalesLubeController extends Controller
 
   constructor: ()->
-    @itemModel = new ItemModel
-    @dsModel = new DailySalesModel
+    @blModel = new BLModel
     super()
 
   setupRoutes: (server)=>
-    server.get('/sales/lubes', @index)
-    server.post('/sales/lubes', @saveLubeSales)#@checkAuthentication, @index)
+    server.get('/sales/lubes/:dsId', @index)
+    server.post('/sales/lubes/:dsId', @saveLubeSales)#@checkAuthentication, @index)
+
+  _getLubeItems: (req, cb)=>
+    returnValues = {}
+
+    dsId = req.params['dsId']
+    returnValues['ds_id'] = dsId
+    
+    unless _.isEmpty(req.body)
+      returnValues['lubes'] = _.values(req.body['items'])
+      returnValues['lube_total'] = req.body['lube_total']
+      return cb(null, returnValues)
+    else
+      @blModel.getLubeItems dsId, (e, lubes)->
+        return cb(e) if e?
+
+        returnValues['lubes'] = lubes
+        return cb(null, returnValues)
 
   index: (req, res, next)=>
     renderValues = {
@@ -23,53 +36,19 @@ class SalesLubeController extends Controller
       sales_lubes: true
     }
 
-    tasks = {
-      items: @_getItems.bind(@)
-    }
-
-    async.parallel tasks, (e, results)=>
+    @_getLubeItems req, (e, result)=>
       return next(e) if e?
 
-      renderValues['fuels'] = results['items']['fuel']
+      renderValues = _.extend renderValues, result
 
       renderValues = @mergeDefRenderValues(req, renderValues)
       res.render('sales/lubes', renderValues)
 
   saveLubeSales: (req, res, next)=>
-    res.redirect('/sales/others')
+    @blModel.save req.body, (e)=>
+      return @index(req, res, next) if e?
 
-  _getItems: (cb)->
-    @itemModel.getAll (e, items)=>
-      return cb.apply @, [e] if e?
-
-      items = _.groupBy items, 'item_type'
-
-      date = moment()
-      @dsModel.getRecent
-      # items = {
-      #   fuels: [{
-      #     _id: '1345'
-      #     item_name: 'MS I'
-      #     item_order: 1
-      #     item_type: 'Fuel'
-      #     opening_reading: '200015'
-      #     closing_reading: '200020'
-      #     rate: '50.5'
-      #     sales: '5'
-      #     amount: '750.00'
-      #   }]
-      #   , lubes: [{
-      #     _id: '1234'
-      #     item_name: '2T 20ml'
-      #     item_order: 1
-      #     item_type: 'Lubes'
-      #     opening_stock: '200'
-      #     closing_stock: '125'
-      #     rate: '10'
-      #     sales: '75'
-      #     amount: '750.00'
-      #   }]
-      # }
-      return cb.apply @, [null, items]
+      dsId = req.body['dsId']
+      return res.redirect("/sales/others/#{dsId}")
 
 module.exports = SalesLubeController

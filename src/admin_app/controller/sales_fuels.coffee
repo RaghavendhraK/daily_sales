@@ -1,11 +1,7 @@
 Controller = require '../controller'
 BLModel = require '../business_logic/sales_fuels'
-ItemModel = require '../../models/internal_storage/items'
-DailySalesModel = require '../../models/internal_storage/daily_sales'
 
-async = require 'async'
 _ = require 'underscore'
-moment = require 'moment'
 
 class SalesFuelController extends Controller
 
@@ -15,7 +11,24 @@ class SalesFuelController extends Controller
 
   setupRoutes: (server)=>
     server.get('/sales/fuels/:dsId', @index)
-    server.post('/sales/fuels', @saveFuelSales)#@checkAuthentication, @index)
+    server.post('/sales/fuels/:dsId', @saveFuelSales)#@checkAuthentication, @index)
+
+  _getFuelItems: (req, cb)=>
+    returnValues = {}
+
+    dsId = req.params['dsId']
+    returnValues['ds_id'] = dsId
+    
+    unless _.isEmpty(req.body)
+      returnValues['fuels'] = _.values(req.body['items'])
+      returnValues['fuel_total'] = req.body['fuel_total']
+      return cb(null, returnValues)
+    else
+      @blModel.getFuelItems dsId, (e, fuels)->
+        return cb(e) if e?
+
+        returnValues['fuels'] = fuels
+        return cb(null, returnValues)
 
   index: (req, res, next)=>
     renderValues = {
@@ -23,17 +36,19 @@ class SalesFuelController extends Controller
       sales_fuels: true
     }
 
-    dsId = req.params['dsId']
-    @blModel.getFuelItems dsId, (e, fuels)=>
+    @_getFuelItems req, (e, result)=>
       return next(e) if e?
 
-      renderValues['fuels'] = fuels
+      renderValues = _.extend renderValues, result
 
-      console.log renderValues['fuels']
       renderValues = @mergeDefRenderValues(req, renderValues)
       res.render('sales/fuels', renderValues)
 
   saveFuelSales: (req, res, next)=>
-    res.redirect('/sales/lubes')
+    @blModel.save req.body, (e)=>
+      return @index(req, res, next) if e?
+
+      dsId = req.body['dsId']
+      return res.redirect("/sales/lubes/#{dsId}")
 
 module.exports = SalesFuelController

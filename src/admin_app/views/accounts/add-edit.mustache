@@ -1,0 +1,45 @@
+{{> header}}
+{{> navbar}}
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <ol class="breadcrumb">
+        <li><a href="/dashboard">Dashboard</a></li>
+        <li><a href="/accounts">Accounts</a></li>
+        <li class="active">{{^account._id}}Add{{/account._id}}{{#account._id}}Edit{{/account._id}} Account</li>
+      </ol>
+      <h2 class="sub-header">{{^account._id}}Add{{/account._id}}{{#account._id}}Edit{{/account._id}} Account</h2>
+      <div class="row">
+        <div class="col-md-6">
+          <form method="post" action="{{^account._id}}/add-account{{/account._id}}{{#account._id}}/edit-account/{{.}}{{/account._id}}" role="form">
+            {{> flash_message}}
+            <input type="hidden" name="_csrf" value="{{csrf_token}}">
+            <fieldset>
+              <div class="form-group">
+                <label for="account_name">Account name</label>
+                <input required="required" type="text" value="{{account.account_name}}" class="form-control" id="account_name" name="account_name" placeholder="Account name">
+              </div>
+              <div class="form-group">
+                <label for="account_type">Account type</label>
+                <select id="account_type" name="account_type">
+                  {{#account_types}}
+                  <option value="{{key}}" {{#selected}}SELECTED="SELECTED"{{/selected}}>{{value}}</option>
+                  {{/account_types}}
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="display_order">Display Order</label>
+                <input type="number" value="{{account.display_order}}"  class="form-control" id="display_order" name="display_order" placeholder="Display Order">
+              </div>
+            </fieldset>
+            <div class="pull-right slight-margin">
+              <a href="/accounts" class="btn btn-default cancel">Cancel</a>
+              <button type="submit" class="btn btn-primary">Save</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{{> footer}}

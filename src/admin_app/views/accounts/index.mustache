@@ -1,0 +1,40 @@
+{{> header}}
+{{> navbar}}
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <ol class="breadcrumb">
+        <li><a href="/dashboard">Dashboard</a></li>
+        <li class="active">Accounts</li>
+      </ol>
+      <h2 class="sub-header">Accounts</h2>
+      {{> flash_message}}
+      <div class="row">
+        <div class="col-md-8">
+          <table class="table table-striped">
+            <thead>
+              <th></th>
+              <th>Name</th>
+              <th>Account Type</th>
+              <th></th>
+            </thead>
+            {{#accounts}}
+            <tr>
+              <td>{{index}}</td>
+              <td>{{account_name}}</td>
+              <td>{{account_type}}</td>
+              <td>
+                <a href="/rates/{{_id}}" class="btn btn-default btn-sm" title="Rates"><span class="glyphicon glyphicon-list"></span></a>
+                <a href="/edit-account/{{_id}}" class="btn btn-default btn-sm" title="Edit"><span class="glyphicon glyphicon-pencil"></span></a>
+                <a href="/delete-account/{{_id}}?_csrf={{csrf_token}}" class="btn btn-danger btn-sm btn-delete" title="Delete"><span class="glyphicon glyphicon-trash"></span></a>
+              </td>
+            </tr>
+            {{/accounts}}
+          </table>
+          <a class="pull-right btn btn-primary slight-margin" href="/add-account">Add Account</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{{> footer}}

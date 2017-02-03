@@ -6,8 +6,9 @@ class ItemSales extends InternalStorageModel
     @schema = {
       fields: {
         'item_id': 'String'
-        'opening_stock': 'Number'
-        'closing_stock': 'Number'
+        'opening': 'Number'
+        'add': 'Number'
+        'closing': 'Number'
         'testing': 'Number'
         'sales' : 'Number'
         'rate': 'Number'
@@ -26,18 +27,20 @@ class ItemSales extends InternalStorageModel
     @getByFilters filters, (e, itemSales)=>
       return cb.apply @, [e, itemSales]
 
-  getByItemId: (itemId, from, to, cb)->
+  getItemsByDailySalesId: (itemIds, dailySalesId, cb)->
     filters = {
-      item_id: itemId
-      $and: [
-        {date: {$gte: from}}
-        {date: {$lte: to}}
-      ]
+      item_id: {$in: itemIds}
+      daily_sales_id: dailySalesId
     }
     @getByFilters filters, (e, itemSales)=>
       return cb.apply @, [e, itemSales]
 
-  getRecent: (cb)->
-    
+  save: (params, cb)->
+    filters = {
+      daily_sales_id: params['daily_sales_id']
+      item_id: params['item_id']
+    }
+    @upsert filters, params, (e)=>
+      return cb.apply @, [e]
 
 module.exports = ItemSales

@@ -1,6 +1,5 @@
 Controller = require '../controller'
-ItemModel = require '../../models/internal_storage/items'
-DailySalesModel = require '../../models/internal_storage/daily_sales'
+BLModel = require '../business_logic/sales_summary'
 
 async = require 'async'
 _ = require 'underscore'
@@ -9,27 +8,24 @@ moment = require 'moment'
 class SalesSummaryController extends Controller
 
   constructor: ()->
-    @itemModel = new ItemModel
-    @dsModel = new DailySalesModel
+    @blModel = new BLModel
     super()
 
   setupRoutes: (server)=>
-    server.get('/sales/summary', @index)
+    server.get('/sales/summary/:dsId', @index)
 
   index: (req, res, next)=>
+    dsId = req.params['dsId']
     renderValues = {
       page_title: 'Sales::Summary'
       sales_summary: true
+      ds_id: dsId
     }
 
-    tasks = {
-      items: @_getItems.bind(@)
-    }
-
-    async.parallel tasks, (e, results)=>
+    @blModel.getSummary dsId, (e, dsRecord)=>
       return next(e) if e?
 
-      renderValues['fuels'] = results['items']['fuel']
+      renderValues['summary'] = dsRecord
 
       renderValues = @mergeDefRenderValues(req, renderValues)
       res.render('sales/summary', renderValues)

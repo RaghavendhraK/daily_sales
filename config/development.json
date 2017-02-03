@@ -8,7 +8,7 @@
       "port": 27017 
     }
   },
-  "token_dir": "/home/kirthan/raghu_workspace/daily_sales/token_dir",
-  "upload_dir_path": "/home/kirthan/raghu_workspace/daily_sales/upload_dir_path",
+  "token_dir": "/home/openly/workspace/daily_sales/datas/tokens",
+  "upload_dir_path": "/home/openly/workspace/daily_sales/datas/uploads",
   "salt": "tq2pdxrblkbgp8vt8kbdpmzdh1w8bex"
 }

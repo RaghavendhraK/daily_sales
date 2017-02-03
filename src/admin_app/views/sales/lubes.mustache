@@ -5,37 +5,63 @@
     <div class="col-md-12">
       <ol class="breadcrumb">
         <li><a href="/dashboard">Dashboard</a></li>
-        <li class="active">Sales</li>
+        <li class="active">Lubes</li>
       </ol>
-      <div class="row well">
-        <ul>
-          <ol>To Do</ol>
-          <ol>Make opening and closing stock 3 digit.</ol>
-          <ol>Make numbers right format.</ol>
-          <ol>Make Sales, Amount, Total sales highlight.</ol>
-          <ol>Rate and amount money formatted.</ol>
-          <ol>BreadCrumbs not visible.</ol>
-        </ul>
-      </div>
       <div class="row">
-        <div class="col-md-8">
+        <div class="col-md-10">
           <h2 class="page-header align-header">Step 3 Lubes :: Sales</h2>
           {{> flash_message}}
-          <form action="/sales/lubes" method="POST">
+          <form id="lube_sales" action="/sales/lubes/{{ds_id}}" method="POST">
             <div class="row well">
-              <div class="col-md-2">Item</div>
-              <div class="col-md-2">Opening</div>
-              <div class="col-md-2">Closing</div>
-              <div class="col-md-2">Sales</div>
-              <div class="col-md-2">Rate</div>
-              <div class="col-md-2">Amount</div>
+              <table class="table">
+                <thead>
+                  <th style="text-align:center">Item</th>
+                  <th style="text-align:center">Opening</th>
+                  <th style="text-align:center">Add</th>
+                  <th style="text-align:center">Closing</th>
+                  <th style="text-align:center">Gift</th>
+                  <th style="text-align:center">Sales</th>
+                  <th style="text-align:center">Rate</th>
+                  <th style="text-align:center">Amount</th>
+                </thead>
+                <tbody>
+                  {{#lubes}}
+                  <tr>
+                    <td>{{item_name}}</td>
+                    <td><input data-item_id="{{_id}}" class="form-control lube_opening_reading" type="text" readonly="true" name="items[{{_id}}][opening]" value="{{opening}}" required="true"/></td>
+                    <td><input data-item_id="{{_id}}" class="form-control lube_add_reading" type="text"  name="items[{{_id}}][add]" value="{{add}}" required="true"/></td>
+                    <td><input data-item_id="{{_id}}" class="form-control lube_closing_reading" type="text" name="items[{{_id}}][closing]" value="{{closing}}" required="true"/></td>
+                    <td><input data-item_id="{{_id}}" class="form-control lube_testing_reading" type="text" name="items[{{_id}}][testing]" value="{{testing}}" required="true"/></td>
+                    <td><input data-item_id="{{_id}}" class="form-control lube_sales" type="text" readonly="true" name="items[{{_id}}][sales]" value="{{sales}}"/></td>
+                    <td><input data-item_id="{{_id}}" class="form-control lube_rate" type="text" name="items[{{_id}}][rate]" value="{{rate}}" required="true"/></td>
+                    <td><input data-item_id="{{_id}}" class="form-control lube_amount" type="text" readonly="true" name="items[{{_id}}][amount]" value="{{amount}}"/></td>
+                    <input type="hidden" name="items[{{_id}}][item_name]" value="{{item_name}}">
+                    <input type="hidden" name="items[{{_id}}][item_type]" value="{{item_type}}">
+                    <input type="hidden" name="items[{{_id}}][_id]" value="{{_id}}">
+                  </tr>
+                  {{/lubes}}
+                  <tfoot>
+                    <tr>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td style="text-align:center"><strong>Total</strong></td>
+                      <td><input class="form-control" id="lube_total" type="text" readonly="true" name="lube_total"/></td>
+                      <input type="hidden" name="dsId" value="{{ds_id}}">
+                    </tr>
+                  </tfoot>
+                </tbody>
+              </table>
             </div>
             <div class="row">
               <button type="submit" class="btn btn-primary pull-right">Next</button>
             </div>
           </form>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-2">
           {{> sales_steps}}
         </div>
       </div>

@@ -5,29 +5,93 @@
     <div class="col-md-12">
       <ol class="breadcrumb">
         <li><a href="/dashboard">Dashboard</a></li>
-        <li class="active">Sales</li>
+        <li class="active">Summary</li>
       </ol>
-      <div class="row well">
-        <ul>
-          <ol>To Do</ol>
-          <ol>Make opening and closing stock 3 digit.</ol>
-          <ol>Make numbers right format.</ol>
-          <ol>Make Sales, Amount, Total sales highlight.</ol>
-          <ol>Rate and amount money formatted.</ol>
-          <ol>BreadCrumbs not visible.</ol>
-        </ul>
-      </div>
       <div class="row">
         <div class="col-md-8">
-          <h2 class="page-header align-header">Summary :: Sales</h2>
+          <h2 class="page-header align-header">Step 7 Summary :: Sales</h2>
           {{> flash_message}}
           <div class="row well">
-            <div class="col-md-2">Item</div>
-            <div class="col-md-2">Opening</div>
-            <div class="col-md-2">Closing</div>
-            <div class="col-md-2">Sales</div>
-            <div class="col-md-2">Rate</div>
-            <div class="col-md-2">Amount</div>
+            <table class="table table-bordered">
+              <thead>
+                <th style="text-align:center">Item</th>
+                <th style="text-align:center">Amount</th>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Fuels</td>
+                  <td style="text-align:right">
+                    {{#currency}}
+                    {{summary.fuels}}
+                    {{/currency}}
+                  </td>
+                </tr>
+                <tr>
+                  <td>Lubes</td>
+                  <td style="text-align:right">
+                    {{#currency}}
+                    {{summary.lubes}}
+                    {{/currency}}
+                  </td>
+                </tr>
+                <tr>
+                  <td>Others</td>
+                  <td style="text-align:right">
+                    {{#currency}}
+                    {{summary.others}}
+                    {{/currency}}
+                  </td>
+                </tr>
+                <tr>
+                  <td><strong>Total Sales</strong></td>
+                  <td style="text-align:right">
+                    <strong>
+                    {{#currency}}
+                    {{summary.total_sales}}
+                    {{/currency}}
+                    </strong>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Expenses</td>
+                  <td style="text-align:right">
+                    (-) {{#currency}}
+                    {{summary.expenses}}
+                    {{/currency}}
+                  </td>
+                </tr>
+                <tr>
+                  <td><strong>Balance</strong></td>
+                  <td style="text-align:right">
+                    <strong>
+                    {{#currency}}
+                    {{summary.balance}}
+                    {{/currency}}
+                    </strong>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Receipts</td>
+                  <td style="text-align:right">
+                    (+) {{#currency}}
+                    {{summary.receipts}}
+                    {{/currency}}
+                  </td>
+                </tr>
+                <tfoot>
+                  <tr>
+                    <td><strong>Final Balance</strong></td>
+                    <td style="text-align:right">
+                      <strong>
+                      {{#currency}}
+                      {{summary.final_balance}}
+                      {{/currency}}
+                      </strong>
+                    </td>
+                  </tr>
+                </tfoot>
+              </tbody>
+            </table>
           </div>
         </div>
         <div class="col-md-4">

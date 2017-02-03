@@ -31,7 +31,7 @@ class AuditLog extends InternalStorageModel
     return ['password', 'confirm_password', 'auth_token']
 
   log: (req, res, cb)->
-    body = res._body;
+    body = res._body
 
     #Response time
     latency = res.get('Response-Time')
@@ -79,11 +79,9 @@ class AuditLog extends InternalStorageModel
     }
 
     @create logFields, (e)->
-      cb(e)
+      return cb(e)
 
-  getLogsWithPagination: (custId, userId, from, to, page, perPage, cb)->
-    custId = validator.sanitize(custId)
-    userId = validator.sanitize(userId)
+  getLogsWithPagination: (from, to, page, perPage, cb)->
     from = validator.sanitize(from)
     to = validator.sanitize(to)
 
@@ -119,7 +117,7 @@ class AuditLog extends InternalStorageModel
       @count filters, (eCnt, count)->
         return cb(eCnt, null) if eCnt?
 
-        cb(null, {
+        return cb(null, {
           total: count,
           audit_logs: auditLogs
         })
@@ -142,6 +140,6 @@ class AuditLog extends InternalStorageModel
       }
     ]
     @getDataAdapter().aggregate pipes, (e, records)->
-      cb(e, records)
+      return cb(e, records)
 
 module.exports = AuditLog
