@@ -10,5 +10,6 @@
   },
   "token_dir": "/home/openly/workspace/daily_sales/datas/tokens",
   "upload_dir_path": "/home/openly/workspace/daily_sales/datas/uploads",
+  "excel_dir_path": "/home/openly/workspace/daily_sales/datas/excels",
   "salt": "tq2pdxrblkbgp8vt8kbdpmzdh1w8bex"
 }

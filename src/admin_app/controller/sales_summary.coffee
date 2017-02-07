@@ -13,6 +13,7 @@ class SalesSummaryController extends Controller
 
   setupRoutes: (server)=>
     server.get('/sales/summary/:dsId', @index)
+    server.post('/sales/summary/:dsId', @saveSummary)
 
   index: (req, res, next)=>
     dsId = req.params['dsId']
@@ -30,12 +31,10 @@ class SalesSummaryController extends Controller
       renderValues = @mergeDefRenderValues(req, renderValues)
       res.render('sales/summary', renderValues)
 
-  _getItems: (cb)->
-    @itemModel.getAll (e, items)=>
-      return cb.apply @, [e] if e?
+  saveSummary: (req, res, next)=>
+    @blModel.save req.body, (e)=>
+      return @index(req, res, next) if e?
 
-      items = _.groupBy items, 'item_type'
-
-      return cb.apply @, [null, items]
+      return res.redirect('/sales')
 
 module.exports = SalesSummaryController

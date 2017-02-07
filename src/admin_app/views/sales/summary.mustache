@@ -4,97 +4,128 @@
   <div class="row">
     <div class="col-md-12">
       <ol class="breadcrumb">
-        <li><a href="/dashboard">Dashboard</a></li>
+        <li><a href="/">Dashboard</a></li>
         <li class="active">Summary</li>
       </ol>
       <div class="row">
-        <div class="col-md-8">
+        <div class="col-md-10">
           <h2 class="page-header align-header">Step 7 Summary :: Sales</h2>
           {{> flash_message}}
           <div class="row well">
-            <table class="table table-bordered">
-              <thead>
-                <th style="text-align:center">Item</th>
-                <th style="text-align:center">Amount</th>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>Fuels</td>
-                  <td style="text-align:right">
-                    {{#currency}}
-                    {{summary.fuels}}
-                    {{/currency}}
-                  </td>
-                </tr>
-                <tr>
-                  <td>Lubes</td>
-                  <td style="text-align:right">
-                    {{#currency}}
-                    {{summary.lubes}}
-                    {{/currency}}
-                  </td>
-                </tr>
-                <tr>
-                  <td>Others</td>
-                  <td style="text-align:right">
-                    {{#currency}}
-                    {{summary.others}}
-                    {{/currency}}
-                  </td>
-                </tr>
-                <tr>
-                  <td><strong>Total Sales</strong></td>
-                  <td style="text-align:right">
-                    <strong>
-                    {{#currency}}
-                    {{summary.total_sales}}
-                    {{/currency}}
-                    </strong>
-                  </td>
-                </tr>
-                <tr>
-                  <td>Expenses</td>
-                  <td style="text-align:right">
-                    (-) {{#currency}}
-                    {{summary.expenses}}
-                    {{/currency}}
-                  </td>
-                </tr>
-                <tr>
-                  <td><strong>Balance</strong></td>
-                  <td style="text-align:right">
-                    <strong>
-                    {{#currency}}
-                    {{summary.balance}}
-                    {{/currency}}
-                    </strong>
-                  </td>
-                </tr>
-                <tr>
-                  <td>Receipts</td>
-                  <td style="text-align:right">
-                    (+) {{#currency}}
-                    {{summary.receipts}}
-                    {{/currency}}
-                  </td>
-                </tr>
-                <tfoot>
+            <form method="POST" action="/sales/summary/{{ds_id}}">
+              <input type="hidden" name="dsId" value="{{ds_id}}">
+              <table class="table table-bordered">
+                <thead>
+                  <th style="text-align:center">Item</th>
+                  <th style="text-align:center">Amount</th>
+                </thead>
+                <tbody>
                   <tr>
-                    <td><strong>Final Balance</strong></td>
+                    <td>Fuels</td>
+                    <td style="text-align:right">
+                      {{#currency}}
+                      {{summary.fuels}}
+                      {{/currency}}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Lubes</td>
+                    <td style="text-align:right">
+                      {{#currency}}
+                      {{summary.lubes}}
+                      {{/currency}}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Others</td>
+                    <td style="text-align:right">
+                      {{#currency}}
+                      {{summary.others}}
+                      {{/currency}}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><strong>Total Sales</strong></td>
                     <td style="text-align:right">
                       <strong>
                       {{#currency}}
-                      {{summary.final_balance}}
+                      {{summary.total_sales}}
                       {{/currency}}
                       </strong>
                     </td>
                   </tr>
-                </tfoot>
-              </tbody>
-            </table>
+                  <tr>
+                    <td>Expenses</td>
+                    <td style="text-align:right">
+                      (-) {{#currency}}
+                      {{summary.expenses}}
+                      {{/currency}}
+                    </td>
+                  </tr>
+                  <!--<tr>
+                    <td><strong>Balance</strong></td>
+                    <td style="text-align:right">
+                      <strong>
+                      {{#currency}}
+                      {{summary.balance}}
+                      {{/currency}}
+                      </strong>
+                    </td>
+                  </tr>-->
+                  <tr>
+                    <td>Receipts</td>
+                    <td style="text-align:right">
+                      (+) {{#currency}}
+                      {{summary.receipts}}
+                      {{/currency}}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><strong>Balance</strong></td>
+                      <td style="text-align:right">
+                        <strong>
+                        {{#currency}}
+                        {{summary.final_balance}}
+                        {{/currency}}
+                        </strong>
+                        <input type="hidden" name="final_balance" value="{{summary.final_balance}}">
+                      </td>
+                    </tr>
+                    <tr>
+                      <td><strong>As per Book</strong></td>
+                      <td style="text-align:right">
+                        <input autocomplete="off" type="text" name="as_per_book" value="{{summary.as_per_book}}" placeholder="As per book">
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Result</td>
+                      <td style="text-align:right">
+                        <span class="summary_result">
+                          {{summary.result}}
+                        </span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Remarks</td>
+                      <td style="text-align:right">
+                        <input type="text" name="remarks" value="{{summary.remarks}}" placeholder="Remarks(if any)">
+                      </td>
+                    </tr>
+                  <tfoot>
+                    <tr>
+                      <td></td>
+                      <td>
+                        <a href="/sales" class="btn btn-default pull-left">Cancel</a>
+                        <button type="submit" class="btn btn-primary pull-right">Save</button>
+                      </td>
+                    </tr>
+                  </tfoot>
+                </tbody>
+              </table>
+            </form>
           </div>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-2">
           {{> sales_steps}}
         </div>
       </div>

@@ -1,1 +1,73 @@
-list.mustache
+{{> header}}
+{{> navbar}}
+<div class="container mtLarge">
+  <div class="row">
+    <div class="col-md-12">
+      <ol class="breadcrumb">
+        <li class="active">Sales</li>
+      </ol>
+      <div class="row">
+        <div class="col-md-12">
+          <h2 class="page-header align-header">Sales List</h2>
+          {{> flash_message}}
+          <div class="row well">
+            <form method="post" action="/sales">
+              <div class="col-md-3">
+                <div class="datepicker input-group date">
+                  <input type="text" class="form-control" value="{{from_date}}" required="required" name="from_date" placeholder="From">
+                  <span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="datepicker input-group date">
+                  <input type="text" class="form-control" value="{{to_date}}" required="required" name="to_date" placeholder="To">
+                  <span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <button type="submit" class="btn btn-primary">Show</button>
+              </div>
+              <div class="col-md-3">
+                <a href="/export" class="btn btn-primary pull-right">Export as XL</a>
+              </div>
+            </form>
+          </div>
+          <div class="row">
+            <table class="table table-bordered table-striped">
+              <thead>
+                <th>Date</th>
+                <th>Shift</th>
+                <th>Sales(in &#8377;)</th>
+                <th>Expenses(in &#8377;)</th>
+                <th>Receipts(in &#8377;)</th>
+                <th>Balance(in &#8377;)</th>
+                <th>As per Book(in &#8377;)</th>
+                <th></th>
+              </thead>
+              <tbody>
+                {{#sales}}
+                <tr>
+                  <td>{{date}}</td>
+                  <td>{{shift}}</td>
+                  <td>{{#currency}}{{total_sales}}{{/currency}}</td>
+                  <td>{{#currency}}{{expenses}}{{/currency}}</td>
+                  <td>{{#currency}}{{receipts}}{{/currency}}</td>
+                  <td>{{#currency}}{{balance}}{{/currency}}</td>
+                  <td>{{#currency}}{{as_per_book}}{{/currency}}</td>
+                  <td>
+                    <a href="/sales/step1/{{_id}}" class="btn btn-default btn-sm">
+                      <span class="glyphicon glyphicon-edit"></span> Edit
+                    </a>
+                  </td>
+                </tr>
+                {{/sales}}
+              </tbody>
+              <tfoot></tfoot>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{{> footer}}

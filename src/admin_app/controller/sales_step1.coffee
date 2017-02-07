@@ -12,15 +12,14 @@ class SalesIndexController extends Controller
     super()
 
   setupRoutes: (server)=>
-    server.get('/sales', @list)
     server.get('/sales/step1', @index)
     server.get('/sales/step1/:dsId', @index)
-    server.post('/sales/step1', @saveStep1)
-    # server.get('/sales/:date/:shift', @index)#@checkAuthentication, @index)
+    server.post('/sales/step1', @saveStep1)#@checkAuthentication
 
   list: (req, res, next)=>
-    #To Do: Show the list of saved sales
-    res.redirect '/sales/step1'
+    renderValues = {}
+    renderValues = @mergeDefRenderValues(req, renderValues)
+    res.render('sales/list', renderValues)
 
   index: (req, res, next)=>
     dsId = req.params['dsId']

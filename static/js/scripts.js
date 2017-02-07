@@ -324,6 +324,28 @@ $(function(){
     });
 
     return isValidated;
-  })
+  });
+
+  //========================Summary=============================//
+  $('input[name="as_per_book"]').change(function(){
+    var resultEl = $('span.summary_result');
+    var asPerBookEl = $(this);
+    var finalBalance = $('input[name="final_balance"]').val();
+    var asPerBookVal = $(this).val();
+
+    if (!isValidNumber(asPerBookVal)) {
+      alert('Please enter valid number');
+      var el = $(this);
+      setTimeout(function(){
+        el.val('0').select().focus();
+      });
+      return;
+    }
+
+    asPerBookVal = getNumbers(asPerBookVal);
+    finalBalance = getNumbers(finalBalance);
+    let result = (asPerBookVal - finalBalance).toFixed(2);
+    resultEl.text(result);
+  });
 
 });
